@@ -6,7 +6,7 @@ import Image from "next/image"
 const logoRows = [
   // Top row
   [
-    { name: "IPM", width: 120 },
+    { name: "RISPL", width: 120 },
     { name: "Hazira", width: 140 },
     { name: "Yohan", width: 100 },
   ],

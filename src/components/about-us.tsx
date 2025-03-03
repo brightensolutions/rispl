@@ -36,7 +36,7 @@ export function AboutUs() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-6 text-gray-700 font-roboto text-lg leading-relaxed"
               >
-                We at IPM are a group of technocrats with a wealth of experience and expertise in offering Customized
+                We at RISPL are a group of technocrats with a wealth of experience and expertise in offering Customized
                 Packaging solutions including Developing, Designing and Supplying products, and after sale services. We
                 are also engaged in design, supply of high quality turnkey automation projects, with Modular Flexible
                 Conveyors Solutions, Process equipments for various industry segments like Food, Pharmaceuticals, FMCG,

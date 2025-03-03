@@ -19,7 +19,7 @@ const cards = [
     icon: Clock,
     title: "Three Decades of Excellence",
     description:
-      "People at IPM has more than Three decades of Experience in Industrial automation & long-term Operational Contracts & are known for Improving load integrity.",
+      "People at RISPL has more than Three decades of Experience in Industrial automation & long-term Operational Contracts & are known for Improving load integrity.",
     delay: 0.2,
     gradient: "from-[#005281] to-[#0072a3]",
   },

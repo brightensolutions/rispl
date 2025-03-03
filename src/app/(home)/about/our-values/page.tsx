@@ -10,7 +10,7 @@ const values = [
     icon: Users,
     title: "Customer-Centric Approach",
     description:
-      "IPM places customers at the forefront of everything we do. We are dedicated to understanding our customers' needs, preferences, and challenges to provide tailored packaging solutions.",
+      "RISPL places customers at the forefront of everything we do. We are dedicated to understanding our customers' needs, preferences, and challenges to provide tailored packaging solutions.",
     gradient: "from-[#012a54] to-[#005281]",
     category: "Foundation",
   },
@@ -42,7 +42,7 @@ const values = [
     icon: Leaf,
     title: "Environmental Responsibility",
     description:
-      "IPM recognizes the importance of sustainability. We actively work to reduce environmental impact by offering eco-friendly materials and promoting sustainable practices.",
+      "RISPL recognizes the importance of sustainability. We actively work to reduce environmental impact by offering eco-friendly materials and promoting sustainable practices.",
     gradient: "from-[#ecdc77] to-[#EDC967]",
     category: "Responsibility",
   },
@@ -50,7 +50,7 @@ const values = [
     icon: TrendingUp,
     title: "Continuous Improvement",
     description:
-      "IPM believes in the power of continuous improvement. We are dedicated to refining our processes and enhancing our offerings.",
+      "RISPL believes in the power of continuous improvement. We are dedicated to refining our processes and enhancing our offerings.",
     gradient: "from-[#012a54] to-[#005281]",
     category: "Growth",
   },
@@ -66,7 +66,7 @@ const values = [
     icon: Shuffle,
     title: "Adaptability",
     description:
-      "IPM understands the ever-changing business landscape. We remain adaptable and agile, ready to respond to new challenges and opportunities.",
+      "RISPL understands the ever-changing business landscape. We remain adaptable and agile, ready to respond to new challenges and opportunities.",
     gradient: "from-[#0072a3] to-[#bda03b]",
     category: "Growth",
   },
@@ -82,7 +82,7 @@ const values = [
     icon: HandHeart,
     title: "Community Engagement",
     description:
-      "We believe in giving back to the communities where we operate. IPM actively engages in philanthropic initiatives and supports community development efforts.",
+      "We believe in giving back to the communities where we operate. RISPL actively engages in philanthropic initiatives and supports community development efforts.",
     gradient: "from-[#ecdc77] to-[#EDC967]",
     category: "Responsibility",
   },

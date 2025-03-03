@@ -201,7 +201,7 @@ export function Footer() {
                     className="text-gray-300 hover:text-gold flex items-start gap-3 group"
                   >
                     <Mail className="w-5 h-5 mt-1 group-hover:text-gold transition-colors" />
-                    <span>rajinder.vakil@ipmasterz.com</span>
+                    <span>rajinder.vakil@rispl.co</span>
                   </a>
                 </li>
                 <li>
@@ -220,9 +220,7 @@ export function Footer() {
                   >
                     <MapPin className="w-5 h-5 mt-1 group-hover:text-gold transition-colors" />
                     <span>
-                      40 A, GF, Pocket - 12 Jasola Vihar,
-                      <br />
-                      New Delhi - 11002
+                    PLOT 47-50, BHATPORE GIDC, NR. GAIL COLONY, BHATPORE, SURAT-394510.
                     </span>
                   </a>
                 </li>

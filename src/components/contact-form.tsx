@@ -96,8 +96,8 @@ export function ContactForm() {
                     {
                       icon: Mail,
                       title: "Email",
-                      value: "info@ipmasterz.com",
-                      href: "mailto:info@ipmasterz.com",
+                      value: "info@rispl.co",
+                      href: "mailto:info@rispl.co",
                     },
                     {
                       icon: Phone,
@@ -117,12 +117,7 @@ export function ContactForm() {
                       value: "PLOT 47-50, BHATPORE GIDC, NR. GAIL COLONY, BHATPORE, SURAT-394510.",
                       href: "https://maps.google.com",
                     },
-                    {
-                      icon: MapPin,
-                      title: "Delhi Office",
-                      value: "40 A, GF, Pocket - 12 Jasola Vihar, New Delhi - 11002",
-                      href: "https://maps.google.com",
-                    },
+              
                   ].map((item, index) => (
                     <motion.a
                       key={index}

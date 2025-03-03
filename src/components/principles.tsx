@@ -16,7 +16,7 @@ const principles = [
     title: "Quality",
     icon: Award,
     description:
-      "At IPM, we prioritize quality in every aspect of our business. From the materials we use to the design and manufacturing processes, we ensure that our packaging solutions meet the highest standards of quality and reliability.",
+      "At RISPL, we prioritize quality in every aspect of our business. From the materials we use to the design and manufacturing processes, we ensure that our packaging solutions meet the highest standards of quality and reliability.",
     gradient: "from-[#005281] to-[#0072a3]",
     delay: 0.2,
   },

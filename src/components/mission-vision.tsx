@@ -223,7 +223,7 @@ export function MissionVision() {
                     >
                       <p className="text-white font-poppins">Mr. Aadil Patel</p>
                       <p className="text-white/60 font-roboto text-sm">
-                        Chairman, IPM Group
+                        Chairman, RISPL Group
                       </p>
                     </motion.div>
                   </div>

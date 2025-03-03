@@ -10,7 +10,7 @@ const slides = [
     id: 1,
     title: "Customized Packaging Solutions",
     description:
-      "We at IPM are a group of technocrats with a wealth of experience and expertise in offering Customized Packaging solutions including Developing, Designing and Supplying products, and after sale services.",
+      "We at RISPL are a group of technocrats with a wealth of experience and expertise in offering Customized Packaging solutions including Developing, Designing and Supplying products, and after sale services.",
     image: "/images/slider/slider2.jpg",
     highlight: "Expertise in Custom Solutions",
   },
@@ -26,7 +26,7 @@ const slides = [
     id: 3,
     title: "Industry-Wide Solutions",
     description:
-      "Serving multiple sectors including Food, Pharmaceuticals, FMCG, Beverages, Automobile and Engineering industries with process equipment and automation solutions.",
+      "Serving multiple sectors including Food, Pharmaceuticals, FMCG, Beverages, Automobile and Engineering industries with process equRISPLent and automation solutions.",
     image: "/images/slider/slider3.jpg",
     highlight: "Multi-Industry Expertise",
   },

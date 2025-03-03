@@ -87,7 +87,7 @@ export const equipmentData = {
       {
         id: "carton-erector-1",
         name: "CARTON ERECTOR SYSTEMS",
-        description: "Carton forming is the first phase in packaging products. IPM offers different types of automatic carton forming machines to be used with or without an operator for different box formats.",
+        description: "Carton forming is the first phase in packaging products. RISPL offers different types of automatic carton forming machines to be used with or without an operator for different box formats.",
         gallery: [
           "/images/Consultancy Services.jpg",
           "/images/Contract Packaging.jpg",
@@ -213,7 +213,7 @@ export const equipmentData = {
         id: "turnkey",
         name: "TURNKEY PACKAGING SOLUTIONS",
         description:
-          "IPM has proven capabilities to provide its customers with turnkey packaging solutions. Our team of project managers and engineers undertake all the activities right from concept to commissioning. A turnkey project typically begins with understanding your stated and unstated needs, detailed layout of the project followed by equipment support, complete integration, testing, personnel training and documentation, to conclude with successful running. Our aim is to execute projects at optimal cost to enhance ROI for our customers.",
+          "RISPL has proven capabilities to provide its customers with turnkey packaging solutions. Our team of project managers and engineers undertake all the activities right from concept to commissioning. A turnkey project typically begins with understanding your stated and unstated needs, detailed layout of the project followed by equipment support, complete integration, testing, personnel training and documentation, to conclude with successful running. Our aim is to execute projects at optimal cost to enhance ROI for our customers.",
         gallery: [
           "/images/turnkey-packaging-solutions.avif"
         ],
@@ -295,7 +295,7 @@ export const equipmentData = {
       {
         id: "pallet-conveyor",
         name: "PALLET HANDLING SYSTEMS",
-        description: "As a part of the turnkey packaging solution, IPM supplies entire range of heavy duty roller conveyors suitable for pallets / drums. They include heavy duty straight, curved and tapered roller conveyors.",
+        description: "As a part of the turnkey packaging solution, RISPL supplies entire range of heavy duty roller conveyors suitable for pallets / drums. They include heavy duty straight, curved and tapered roller conveyors.",
         gallery: [
           "/images/pallet-conveyor.avif"
         ],

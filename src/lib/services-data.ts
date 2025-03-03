@@ -115,7 +115,7 @@ export const servicesData: ServiceData[] = [
     title: "Contract Packaging",
     subtitle: "Professional Packaging Services & Solutions",
     description:
-      "IPM are specialist in offering a Contract for Complete Packaging line and fulfillment services. We maximize efficiency through single point responsibility and comprehensive end-to-end solutions.",
+      "RISPL are specialist in offering a Contract for Complete Packaging line and fulfillment services. We maximize efficiency through single point responsibility and comprehensive end-to-end solutions.",
     href: "/solutions/contract-packaging",
     headerImage: "/images/aboutTeam.jpg",
     sections: [

@@ -64,7 +64,7 @@ export default function AboutModern() {
                   <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#005281]/5 rounded-full blur-2xl" />
                   <h3 className="text-3xl font-bold font-poppins text-[#005281] mb-4">Our Services</h3>
                   <p className="text-gray-600 font-roboto mb-6 relative z-10">
-                    IPM is one of well-known Industrial Packaging Solutions Providers, which Covers full range of
+                  RISPL is one of well-known Industrial Packaging Solutions Providers, which Covers full range of
                     Secondarily packaging requirements.
                   </p>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

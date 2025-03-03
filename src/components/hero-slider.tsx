@@ -35,7 +35,7 @@ const slides = [
 export function HeroSlider() {
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = React.useState(true)
-  const autoPlayRef = React.useRef<NodeJS.Timeout>()
+  const autoPlayRef = React.useRef<NodeJS.Timeout | undefined>(undefined)
 
   const nextSlide = React.useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length)

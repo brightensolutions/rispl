@@ -2,17 +2,17 @@ import { ProductDetail } from "@/components/product-detail"
 import { consumablesgetProduct } from "@/lib/equipment-data"
 import { notFound } from "next/navigation"
 
-// Define props type without Promise
-type Props = {
-  params: {
-    category: string
-    id: string
-  }
+// Define the params type for Next.js 15
+interface PageProps {
+  params: Promise<{ category: string; id: string }>
 }
 
-export default async function ProductPage({ params }: Props) {
-  // Get product directly without awaiting params
-  const product = await consumablesgetProduct(params.category, params.id)
+export default async function ProductPage({ params }: PageProps) {
+  // Await the params
+  const { category, id } = await params
+
+  // Get product data
+  const product = await consumablesgetProduct(category, id)
 
   if (!product) {
     notFound()
@@ -21,8 +21,10 @@ export default async function ProductPage({ params }: Props) {
   return <ProductDetail product={product} type="consumables" />
 }
 
-export async function generateMetadata({ params }: Props) {
-  const product = await consumablesgetProduct(params.category, params.id)
+// Add metadata generation
+export async function generateMetadata({ params }: PageProps) {
+  const { category, id } = await params
+  const product = await consumablesgetProduct(category, id)
 
   if (!product) {
     return {

@@ -32,6 +32,11 @@ const itemVariants = {
   },
 }
 
+// Type guard to check if product has features
+function hasFeatures(product: Product): product is Product & { features: string[] } {
+  return "features" in product
+}
+
 export function ProductGrid({ products, categoryId }: ProductGridProps) {
   return (
     <section className="py-20">
@@ -44,7 +49,7 @@ export function ProductGrid({ products, categoryId }: ProductGridProps) {
                   {/* Image Container */}
                   <div className="relative h-64 overflow-hidden">
                     <Image
-                      src={product.image || "/placeholder.svg"}
+                      src={product.gallery?.[0] || "/placeholder.svg"}
                       alt={product.name}
                       fill
                       className="object-cover transform group-hover:scale-110 transition-transform duration-700"
@@ -61,14 +66,16 @@ export function ProductGrid({ products, categoryId }: ProductGridProps) {
                     <p className="text-gray-600 mb-4 line-clamp-2">{product.description}</p>
 
                     {/* Features Preview */}
-                    <div className="space-y-2 mb-4">
-                      {product.features.slice(0, 3).map((feature, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <Star className="w-4 h-4 text-[#EDC967]" />
-                          <span className="text-sm text-gray-600">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
+                    {hasFeatures(product) && (
+                      <div className="space-y-2 mb-4">
+                        {product.features.slice(0, 3).map((feature, index) => (
+                          <div key={index} className="flex items-center gap-2">
+                            <Star className="w-4 h-4 text-[#EDC967]" />
+                            <span className="text-sm text-gray-600">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                     {/* Learn More Link */}
                     <div className="flex items-center gap-2 text-[#005281] font-medium group/link">

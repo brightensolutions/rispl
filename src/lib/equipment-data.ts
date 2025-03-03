@@ -728,16 +728,17 @@ export function getCategory(id: string) {
 
 export function getProduct(categoryId: string, productId: string) {
   const category = getCategory(categoryId)
-  return category?.products.find((p) => p.id === productId)
+  const product = category?.products.find((p) => p.id === productId)
+  return product
 }
 
 
 
-export type consumablesCategory = keyof typeof consumablesData;
-export type consumablesProduct = (typeof consumablesData)[consumablesCategory]["products"][number]; // ✅ `consumablesCategory` का सही उपयोग करें
+export type consumablesCategory = keyof typeof consumablesData
+export type consumablesProduct = (typeof consumablesData)[consumablesCategory]["products"][number]
 
 export function consumablesgetCategory(id: string) {
-  return consumablesData[id as consumablesCategory];
+  return consumablesData[id as consumablesCategory]
 }
 
 export async function consumablesgetProduct(categoryId: string, productId: string) {

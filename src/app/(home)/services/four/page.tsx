@@ -5,7 +5,7 @@ import ServiceSection from "@/components/service-section"
 
 function ServiceLogisticsWarehousing() {
   return (
-    <>
+    <div className="overflow-hidden">
       <PageTitle
         title="Logistics & Warehousing"
         backgroundImage="/images/aboutTeam.jpg"
@@ -42,7 +42,7 @@ function ServiceLogisticsWarehousing() {
         bottomDescription="Packaging and unitizing techniques play a vital role in ensuring the safe transportation of goods. Optimizing truck utilization helps to maximize efficiency and reduce costs. Internal transport within the warehouse is also a key consideration, ensuring smooth operations and timely retrieval of items. Storage retrieval systems and proper identification and communication methods are essential for efficient management of inventory. Overall, these solutions are critical to the success of the logistics and warehousing industry."
         buttonText="Explore Solutions"
       />
-    </>
+    </div>
   )
 }
 

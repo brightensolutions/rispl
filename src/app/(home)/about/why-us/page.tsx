@@ -33,33 +33,33 @@ const cards = [
   },
 ]
 
-const features = [
-  {
-    icon: Package,
-    title: "Vast Industry Experience",
-    description: "Providing excellent solutions to improve customer process with decades of expertise.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Customer Centric Approach",
-    description: "Out of the box thinking, with Customer Centric Approach to meet unique needs.",
-  },
-  {
-    icon: Users,
-    title: "Qualified Technocrats",
-    description: "Well Qualified and experienced technocrats with strong domain knowledge.",
-  },
-  {
-    icon: Shield,
-    title: "Quality Standards",
-    description: "Quality products and services with set of standards in meeting the Global Standard Methods.",
-  },
-  {
-    icon: CheckCircle2,
-    title: "Value Creation",
-    description: "Creating values for the Turnkey Packaging Line solutions with Streamline approach.",
-  },
-]
+// const features = [
+//   {
+//     icon: Package,
+//     title: "Vast Industry Experience",
+//     description: "Providing excellent solutions to improve customer process with decades of expertise.",
+//   },
+//   {
+//     icon: Lightbulb,
+//     title: "Customer Centric Approach",
+//     description: "Out of the box thinking, with Customer Centric Approach to meet unique needs.",
+//   },
+//   {
+//     icon: Users,
+//     title: "Qualified Technocrats",
+//     description: "Well Qualified and experienced technocrats with strong domain knowledge.",
+//   },
+//   {
+//     icon: Shield,
+//     title: "Quality Standards",
+//     description: "Quality products and services with set of standards in meeting the Global Standard Methods.",
+//   },
+//   {
+//     icon: CheckCircle2,
+//     title: "Value Creation",
+//     description: "Creating values for the Turnkey Packaging Line solutions with Streamline approach.",
+//   },
+// ]
 
 const accomplishments = [
   "Received large scale appreciation by senior management including Executive Director for best housekeeping in POY plant of Reliance Industries Ltd.",
@@ -72,7 +72,7 @@ const accomplishments = [
 
 export default function PurposeVisionSection() {
   return (
-    <>
+    <div className=" overflow-hidden">
     <PageTitle
         title="Why Choose Us"
         backgroundImage="/images/rispl-why-choes-us.jpg"
@@ -82,13 +82,9 @@ export default function PurposeVisionSection() {
       <div className="container mx-auto px-4">
         {/* Cards Grid */}
         <div className="grid md:grid-cols-3 gap-8 mb-20">
-          {cards.map((card, index) => (
-            <motion.div
+          {cards.map((card) => (
+            <div
               key={card.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: card.delay }}
               className="group h-full"
             >
               <div className="relative bg-white rounded-2xl h-[400px] shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden">
@@ -158,7 +154,7 @@ export default function PurposeVisionSection() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -316,7 +312,7 @@ export default function PurposeVisionSection() {
     <section>
         <ContactForm/>
     </section>
-    </>
+    </div>
   )
 }
 

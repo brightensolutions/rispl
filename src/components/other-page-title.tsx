@@ -3,7 +3,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
-import { FlipText } from "./magicui/flip-text";
 
 interface PageTitleProps {
   title: string;
@@ -39,9 +38,8 @@ export function PageTitle({
           className="object-cover object-center"
           priority
         />
-        {/* Simple Dark Blue Overlay */}
+        {/* Dark Blue Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-darker/95 via-blue-darker/85 to-blue-darker/70" />
-
       </motion.div>
 
       {/* Content */}
@@ -50,17 +48,18 @@ export function PageTitle({
         style={{ opacity }}
       >
         <div className="h-full flex flex-col items-center justify-center text-center">
-          <FlipText
-           style={{
-            background: "linear-gradient(to right, #bda03b, #ecdc77, #e3ca65, #EDC967)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-            className="text-4xl font-extrabold font-nunito  text-black dark:text-white md:text-7xl"
+          {/* Replaced FlipText with direct heading */}
+          <h1 
+            className="text-4xl font-extrabold font-nunito max-w-[90vw] break-words md:text-7xl"
+            style={{
+              background: "linear-gradient(to right, #bda03b, #ecdc77, #e3ca65, #EDC967)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
           >
             {title}
-          </FlipText>
+          </h1>
 
           {/* Subtitle */}
           {subtitle && (
@@ -68,7 +67,7 @@ export function PageTitle({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-4 text-xl font-roboto text-white/90 max-w-3xl"
+              className="mt-4 text-lg md:text-xl font-roboto text-white/90 max-w-[90vw] md:max-w-3xl px-4"
             >
               {subtitle}
             </motion.p>
@@ -76,11 +75,11 @@ export function PageTitle({
         </div>
       </motion.div>
 
-      {/* Simple Wave */}
+      {/* Wave */}
       <div className="absolute bottom-0 left-0 right-0">
         <svg
           viewBox="0 0 1440 120"
-          className="w-full h-[150px]"
+          className="w-full h-[100px] md:h-[150px]"
           preserveAspectRatio="none"
         >
           <path

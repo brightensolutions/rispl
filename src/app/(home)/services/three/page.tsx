@@ -5,7 +5,7 @@ import ServiceSection from "@/components/service-section"
 
 function ServiceFiberTextile() {
   return (
-    <>
+    <div className="overflow-hidden">
       <PageTitle
         title="Fiber & Textile"
         backgroundImage="/images/aboutTeam.jpg"
@@ -42,7 +42,7 @@ function ServiceFiberTextile() {
         bottomDescription="This is important as it ensures that the fiber and textiles maintain their quality and integrity from production to delivery. By utilizing effective packaging techniques, companies can minimize the risk of product damage and costly mishaps. The packaging not only provides a convenient way to transport the products but also acts as a protective barrier against external elements. Overall, packaging in the fiber and textiles industry is essential in maintaining the value and quality of the products throughout the supply chain."
         buttonText="Learn More"
       />
-    </>
+    </div>
   )
 }
 

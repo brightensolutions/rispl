@@ -12,7 +12,6 @@ import {
   Phone,
   MapPin,
   ArrowRight,
-  Send,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,13 +42,13 @@ const footerLinks = {
 };
 
 export function Footer() {
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle subscription logic here
-    setEmail("");
-  };
+  // const handleSubscribe = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   Handle subscription logic here
+  //   setEmail("");
+  // };
 
   return (
     <footer className="relative bg-blue-dark overflow-hidden">

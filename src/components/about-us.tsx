@@ -39,7 +39,7 @@ export function AboutUs() {
                 We at IPM are a group of technocrats with a wealth of experience and expertise in offering Customized
                 Packaging solutions including Developing, Designing and Supplying products, and after sale services. We
                 are also engaged in design, supply of high quality turnkey automation projects, with Modular Flexible
-                Conveyors Solutions, Process equipment's for various industry segments like Food, Pharmaceuticals, FMCG,
+                Conveyors Solutions, Process equipments for various industry segments like Food, Pharmaceuticals, FMCG,
                 Beverages, Automobile and Engineering industries.
               </motion.p>
 

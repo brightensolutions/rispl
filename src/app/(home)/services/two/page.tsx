@@ -5,7 +5,7 @@ import ServiceSection from "@/components/service-section"
 
 function ServiceFoodAndBeverages() {
   return (
-    <>
+    <div className="overflow-hidden">
       <PageTitle
         title="Food and Beverages"
         backgroundImage="/images/aboutTeam.jpg"
@@ -42,7 +42,7 @@ function ServiceFoodAndBeverages() {
         bottomDescription="We understand the importance of packaging in the food and beverage industries, where quality and presentation play a crucial role in consumer satisfaction. Our team of experts will work closely with you to find the perfect packaging solution that not only meets your requirements but also enhances the overall appeal of your products."
         buttonText="Get Started"
       />
-    </>
+    </div>
   )
 }
 

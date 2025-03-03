@@ -5,7 +5,7 @@ import ServiceSection from "@/components/service-section"
 
 function ServiceManufacturing() {
   return (
-    <>
+    <div className="overflow-hidden">
       <PageTitle
         title="General Manufacturing & Engineering"
         backgroundImage="/images/aboutTeam.jpg"
@@ -42,7 +42,7 @@ function ServiceManufacturing() {
         bottomDescription="Our engineering expertise allows us to develop custom packaging solutions that address the unique challenges of manufacturing industries. From delicate components to heavy machinery, our packaging systems are designed to provide optimal protection while maximizing efficiency in your supply chain operations."
         buttonText="Explore Solutions"
       />
-    </>
+    </div>
   )
 }
 

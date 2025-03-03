@@ -42,7 +42,7 @@ const teamMembers = [
 
 export default function TeamSection() {
   return (
-    <div>
+    <div className=" overflow-hidden">
       <PageTitle
         title="Our Team"
         backgroundImage="/images/rispl-team.jpg"
@@ -61,7 +61,7 @@ export default function TeamSection() {
 
           {/* Leadership Grid */}
           <div className="grid lg:grid-cols-3 gap-8 mb-24">
-            {teamMembers.map((member, index) => (
+            {teamMembers.map((member) => (
               <div key={member.name} className="group">
                 <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
                   {/* Image Container */}

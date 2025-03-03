@@ -4,7 +4,7 @@ import React from 'react'
 
  const Contact = () => {
   return (
-    <div>
+    <div className='overflow-hidden'>
         <PageTitle
                 title="Contact Us"
                 backgroundImage="/images/aboutTeam.jpg"

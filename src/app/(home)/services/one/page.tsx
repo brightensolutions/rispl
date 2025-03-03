@@ -5,7 +5,7 @@ import ServiceSection from "@/components/service-section"
 
 function ServicesFmcg() {
   return (
-    <>
+    <div className="overflow-hidden">
       <PageTitle
         title="FMCG Packaging Solutions"
         backgroundImage="/images/FMCG-Packaging.jpg"
@@ -39,7 +39,7 @@ function ServicesFmcg() {
         bottomDescription="Our packaging solutions are tailored to meet the unique needs of fast-moving consumer goods industries, ensuring that your products are not only protected during transportation but also visually appealing on store shelves."
         buttonText="Get Started"
       />
-    </>
+    </div>
   )
 }
 

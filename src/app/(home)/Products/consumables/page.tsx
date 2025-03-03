@@ -3,7 +3,7 @@ import { PageTitle } from "@/components/other-page-title"
 
 export default function EquipmentPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-hidden">
       <PageTitle
         title="consumables"
         subtitle="High-quality packaging equipment for your business needs"

@@ -90,7 +90,7 @@ const values = [
 
 function OurValuesTimeline() {
   return (
-    <>
+    <div className=" overflow-hidden">
       <PageTitle
         title="Our Values"
         backgroundImage="/images/rispl-ourValue.jpg"
@@ -279,7 +279,7 @@ function OurValuesTimeline() {
           }
         `}</style>
       </section>
-    </>
+    </div>
   )
 }
 

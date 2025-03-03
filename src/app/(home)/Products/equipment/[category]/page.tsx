@@ -11,7 +11,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-hidden">
       <PageTitle title={category.title} subtitle={category.description} backgroundImage={category.image} />
       <ProductGrid products={category.products} categoryId={category.id} />
     </div>

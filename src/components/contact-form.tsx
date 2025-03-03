@@ -46,7 +46,7 @@ export function ContactForm() {
         setIsLoading(false)
       }, 1000)
 
-    } catch (error) {
+    } catch  {
       toast.error("Something went wrong. Please try again.")
       setIsLoading(false)
     }

@@ -5,7 +5,7 @@ import ServiceSection from "@/components/service-section"
 
 export default function ServiceAutomobile() {
   return (
-    <>
+    <div className="overflow-hidden">
       <PageTitle
         title="Automobile"
         backgroundImage="/images/aboutTeam.jpg"
@@ -42,7 +42,7 @@ export default function ServiceAutomobile() {
         bottomDescription="Our comprehensive automotive packaging solutions are designed to meet the diverse needs of the automotive industry. Whether you need expendable packaging for one-time shipments or returnable packaging for ongoing supply chain operations, we provide efficient and cost-effective solutions that protect your automotive parts throughout the transportation and storage process."
         buttonText="Discover Solutions"
       />
-    </>
+    </div>
   )
 }
 

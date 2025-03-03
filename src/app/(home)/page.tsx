@@ -7,12 +7,12 @@ import { MissionVision } from "@/components/mission-vision";
 
 export default function Home()  {
     return(
-        <>
+        <div className="overflow-hidden">
           <HeroSlider/>
           <AboutUs/>  
           <Expertise/>  
           <MissionVision/>
           <ContactForm/>
-        </>
+        </div>
     )
 }

@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { Package2, Box, Combine, Forklift } from 'lucide-react'
-import { equipmentData } from "@/lib/equipment-data"
 
 const equipmentCategories = [
   {

@@ -44,7 +44,7 @@ export default function AboutModern() {
                   <h3 className="text-3xl font-bold font-poppins text-[#005281] mb-4">Who We Are</h3>
                   <p className="text-gray-600 font-roboto leading-relaxed relative z-10">
                     We are a group of technocrats with a wealth of experience and expertise behind us, with the Company
-                    name as Imperial Pack Masterz (IPM). We offer Customized Packaging solutions, with well supported
+                    name as Imperial Pack Masterz (RISPL). We offer Customized Packaging solutions, with well supported
                     service support, to diverse customer segments with trusted Products & best practices.
                   </p>
                 </div>

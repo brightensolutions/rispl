@@ -148,15 +148,16 @@ export function Navbar() {
         isScrolled ? "bg-white shadow-md" : "bg-white"
       )}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 md:py-4">
         <div className="flex items-center justify-between ">
           {/* Logo */}
           <Link href="/" className="relative ">
             <Image
-              src="/images/logos/ris logo.svg"
+              src="/images/logos/ris logoline.svg"
               alt="Logo"
-              width={250}
-              height={250}
+              width={220}
+              height={400}
+              className="lg:w-[400px] w-[350px]"
             />
           </Link>
 

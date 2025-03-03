@@ -108,8 +108,8 @@ export function ContactForm() {
                     {
                       icon: Globe,
                       title: "Website",
-                      value: "www.ipmasterz.com",
-                      href: "https://www.ipmasterz.com",
+                      value: "www.rispl.co",
+                      href: "https://www.rispl.com",
                     },
                     {
                       icon: MapPin,

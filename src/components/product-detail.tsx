@@ -79,7 +79,7 @@ export function ProductDetail({ product,type }: ProductDetailProps) {
                   <div className="h-px flex-1 bg-gradient-to-r from-[#bda03b]/20 to-transparent" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[1, 2, 3, 4].map((_, index) => (
                     <motion.div
                       key={index}

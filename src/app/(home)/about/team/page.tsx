@@ -9,6 +9,17 @@ const teamMembers = [
     name: "Adil Patel",
     role: "Chairman & Managing Director",
     subRole: "Operation & Function",
+    image: "/images/aadil.jpg",
+    social: {
+      linkedin: "#",
+      twitter: "#",
+      email: "mailto:example@domain.com",
+    },
+  },
+  {
+    name: "arzans",
+    role: "Director",
+    subRole: "Strategic Business & Projects",
     image: "/images/Adil Patel.jpg",
     social: {
       linkedin: "#",
@@ -19,19 +30,8 @@ const teamMembers = [
   {
     name: "Rajinder Vakil",
     role: "Director",
-    subRole: "Strategic Business & Projects",
-    image: "/images/Rajinder Vakil.avif",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      email: "mailto:example@domain.com",
-    },
-  },
-  {
-    name: "Rajveersinh Ramlavat",
-    role: "Director",
     subRole: "Commercial & Corporate Affairs",
-    image: "/images/Rajveersinh Ramlavat.jpeg",
+    image: "/images/Rajinder Vakil.avif",
     social: {
       linkedin: "#",
       twitter: "#",

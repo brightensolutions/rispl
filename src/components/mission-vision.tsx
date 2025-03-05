@@ -244,7 +244,7 @@ export function MissionVision() {
                         {/* Image Container */}
                         <div className="relative h-full w-full rounded-xl overflow-hidden">
                           <Image
-                            src="/images/Adil Patel-right.jpg"
+                            src="/images/aadil.jpg"
                             alt="Chairman"
                             fill
                             className="object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"

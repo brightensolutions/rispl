@@ -268,9 +268,9 @@ export function Footer() {
           className="mt-16 pt-8 border-t border-white/10"
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} IPMasterz. All rights reserved.
-            </p>
+            <Link href="http://www.brightensolutions.com/" className="text-gray-400 text-sm">
+              © {new Date().getFullYear()} Brighten Solutions. All rights reserved.
+            </Link>
            
           </div>
         </motion.div>

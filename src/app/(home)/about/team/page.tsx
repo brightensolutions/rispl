@@ -9,7 +9,7 @@ const teamMembers = [
     name: "Adil Patel",
     role: "Chairman & Managing Director",
     subRole: "Operation & Function",
-    image: "/images/Chairman.avif",
+    image: "/images/Adil Patel.jpg",
     social: {
       linkedin: "#",
       twitter: "#",

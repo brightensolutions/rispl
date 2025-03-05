@@ -131,7 +131,7 @@ export function ContactForm() {
                       whileHover={{ x: 10 }}
                       className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-all duration-300 group"
                     >
-                      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue to-blue-dark p-0.5 rotate-3 group-hover:rotate-6 transition-transform duration-300">
+                      <div className="flex-shrink-0 w-12 h-12 rounded-xl  bg-gradient-to-br from-blue to-blue-dark p-0.5  group-hover:rotate-6 transition-transform duration-300">
                         <div className="w-full h-full rounded-xl bg-white flex items-center justify-center">
                           <item.icon className="w-5 h-5 text-blue group-hover:text-gold transition-colors" />
                         </div>

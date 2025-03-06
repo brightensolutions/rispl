@@ -62,12 +62,12 @@ const cards = [
 // ]
 
 const accomplishments = [
-  "Received large scale appreciation by senior management including Executive Director for best housekeeping in POY plant of Reliance Industries Ltd.",
-  "Recieved appreciation by Hindustan Coca Cola Beverages Pvt. Ltd. for exemplary performance in housekeeping/ Maintanance and quality related activities",
-  "Effectively handled major labour crisis in Coca Cola during closure of their plant in Surat, without any litigation.",
+  "Received large scale appreciation by senior management including Executive Director for high standard of performance in managing, executing  with exceptional Quality of work in POY plant of Reliance Industries Ltd.",
+  "Recieved appreciation by Hindustan Coca Cola Beverages Pvt. Ltd. for exemplary performance in Maintanance and quality related activities.",
+  "Effectively handled major Manpower crisis in Coca Cola during closure of their plant in Surat, maintaining high compliances letigation.",
   "Produced 730 kms. Length of HDPE pipe against established record of 540 kms.",
   "Recieved performance safety award in RIL complex level safety competition.",
-  "Repairing of returnable plastic units from scrap & reusing the same without any change in the size/ dimension of the unit saving up to Rs. 8 to 10 Lacs approx.",
+  "Innovation by managing repair of returnable plastic units from scrap & reuse the same without any dimensional change of the unit thus making substantial  saving .",
 ]
 
 export default function PurposeVisionSection() {

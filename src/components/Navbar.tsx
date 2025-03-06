@@ -148,7 +148,7 @@ export function Navbar() {
         isScrolled ? "bg-white shadow-md" : "bg-white"
       )}
     >
-      <div className="container mx-auto px-4 md:py-4">
+      <div className="2xl:max-w-[1440px] mx-auto px-4 md:py-4">
         <div className="flex items-center justify-between ">
           {/* Logo */}
           <Link href="/" className="relative ">

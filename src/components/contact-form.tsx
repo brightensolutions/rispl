@@ -82,11 +82,7 @@ export function ContactForm() {
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Contact Information */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+            <div
             >
               <div className="h-[730px] bg-white rounded-3xl p-8 shadow-lg">
                 <h3 className="text-3xl font-nunito font-bold text-blue mb-8">Contact Information</h3>
@@ -171,14 +167,10 @@ export function ContactForm() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+            <div
             >
               <div className="md:h-[720px] h-full bg-white rounded-3xl p-8 shadow-lg">
                 <form onSubmit={handleSubmit} className="h-full flex flex-col">
@@ -266,7 +258,7 @@ export function ContactForm() {
                   </motion.button>
                 </form>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@ const teamMembers = [
     },
   },
   {
-    name: "arzans",
+    name: "Arzan",
     role: "Director",
     subRole: "Strategic Business & Projects",
     image: "/images/Adil Patel.jpg",
@@ -29,9 +29,9 @@ const teamMembers = [
   },
   {
     name: "Rajinder Vakil",
-    role: "Director",
+    role: "Business & Corporate Affairs",
     subRole: "Commercial & Corporate Affairs",
-    image: "/images/Rajinder Vakil.avif",
+    image: "/images/Rajinder-Vakil.jpg",
     social: {
       linkedin: "#",
       twitter: "#",

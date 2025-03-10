@@ -17,9 +17,9 @@ const teamMembers = [
     },
   },
   {
-    name: "Arzan",
+    name: "Arzan Patel",
     role: "Director",
-    subRole: "Strategic Business & Projects",
+    subRole: "Commercial & Corporate Affairs",
     image: "/images/Adil Patel.jpg",
     social: {
       linkedin: "#",
@@ -29,8 +29,8 @@ const teamMembers = [
   },
   {
     name: "Rajinder Vakil",
-    role: "Business & Corporate Affairs",
-    subRole: "Commercial & Corporate Affairs",
+    role: "Director ",
+    subRole: "Strategic Business & Projects",
     image: "/images/Rajinder-Vakil.jpg",
     social: {
       linkedin: "#",

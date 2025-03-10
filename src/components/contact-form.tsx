@@ -98,8 +98,8 @@ export function ContactForm() {
                     {
                       icon: Phone,
                       title: "Phone",
-                      value: "+91 123 456 7890",
-                      href: "tel:+911234567890",
+                      value: "+91 9818879945",
+                      href: "tel:+919818879945",
                     },
                     {
                       icon: Globe,
@@ -127,9 +127,9 @@ export function ContactForm() {
                       whileHover={{ x: 10 }}
                       className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-all duration-300 group"
                     >
-                      <div className="flex-shrink-0 w-12 h-12 rounded-xl  bg-gradient-to-br from-blue to-blue-dark p-0.5  group-hover:rotate-6 transition-transform duration-300">
-                        <div className="w-full h-full rounded-xl bg-white flex items-center justify-center">
-                          <item.icon className="w-5 h-5 text-blue group-hover:text-gold transition-colors" />
+                      <div className="flex-shrink-0 w-12 h-12 rounded-xl   p-0.5  group-hover:rotate-6 transition-transform duration-300">
+                        <div className="w-full h-full rounded-full bg-gradient-gold flex items-center justify-center">
+                          <item.icon className="w-5 h-5 text-black group-hover:text-black transition-colors" />
                         </div>
                       </div>
                       <div>
@@ -158,8 +158,8 @@ export function ContactForm() {
                           className="group relative"
                         >
                           <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gold via-[#ecdc77] to-[#EDC967] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                          <div className="relative w-12 h-12 rounded-xl bg-white flex items-center justify-center shadow-lg transform transition-all duration-300 group-hover:translate-y-[-4px] group-hover:rotate-6">
-                            <Icon className="w-5 h-5 text-gray-600 group-hover:text-gold transition-colors" />
+                          <div className="relative w-12 h-12 rounded-xl bg-gradient-gold flex items-center justify-center shadow-lg transform transition-all duration-300 group-hover:translate-y-[-4px] group-hover:rotate-6">
+                            <Icon className="w-5 h-5 text-black group-hover:text-zinc-900 transition-colors" />
                           </div>
                         </motion.a>
                       ),

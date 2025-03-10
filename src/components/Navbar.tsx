@@ -34,6 +34,11 @@ const menuItems = [
         href: "/about/our-values",
         description: "Explore our guiding principles",
       },
+      // {
+      //   title: "Our Gallery",
+      //   href: "/about/gallery",
+      //  description: "Discover our collection of memorable moments and visuals."
+      // },
     ],
   },
   {

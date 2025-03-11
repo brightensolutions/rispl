@@ -3,10 +3,6 @@ import Image from "next/image"
 
 const reviews = [
   {
-    name: "Jill",
-    img: "/logo/01.avif",
-  },
-  {
     name: "John",
     img: "/logo/02.avif",
   },

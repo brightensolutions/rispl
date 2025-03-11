@@ -3,6 +3,7 @@ import { ContactForm } from "@/components/contact-form";
 import Expertise from "@/components/expertise";
 import { HeroSlider } from "@/components/hero-slider";
 import { MissionVision } from "@/components/mission-vision";
+import { Ourclient } from "@/components/ourclinet";
 
 
 export default function Home()  {
@@ -12,6 +13,7 @@ export default function Home()  {
           <AboutUs/>  
           <Expertise/>  
           <MissionVision/>
+          <Ourclient/>
           <ContactForm/>
         </div>
     )

@@ -58,6 +58,34 @@ const reviews = [
     name: "Jamesss",
     img: "/client/vesuvius.png",
   },
+  {
+    name: "Jamesss",
+    img: "/client/APAR-INDUSTRIES.jpg",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/saint-global.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/nippon-steel.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/Screenshot_14.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/capital (1).png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/refratechnik.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/essar.png",
+  },
 ]
 
 const ReviewCard = ({
@@ -66,7 +94,7 @@ const ReviewCard = ({
   img: string
 }) => {
   return (
-    <div className="mx-4">
+    <div className="mx-4 h-64 flex flex-col justify-center items-center">
       <Image
         className=" w-auto object-contain"
         width={150}

@@ -31,7 +31,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Adil Patel",
     role: "Chairman & Managing Director",
-    subRole: "Operation & Function",
+    subRole: ".",
     image: "/images/aadil.jpg",
     social: {
       linkedin: "#",
@@ -165,7 +165,7 @@ function TeamMemberCard({ member, index }: TeamMemberCardProps): React.ReactElem
           <div className="relative p-6">
             <div className="text-center">
               <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-[#012a54] to-[#005281] bg-clip-text text-transparent">
-                {member.name}
+               {member.name.toUpperCase()}
               </h3>
               <p className="text-lg font-medium text-[#bda03b] mb-1">{member.role}</p>
               <p className="text-gray-600 text-sm">{member.subRole}</p>

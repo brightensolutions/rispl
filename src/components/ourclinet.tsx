@@ -4,23 +4,59 @@ import Image from "next/image"
 const reviews = [
   {
     name: "John",
-    img: "/logo/02.avif",
+    img: "/client/aditya.png",
   },
   {
     name: "Jane",
-    img: "/logo/03.avif",
+    img: "/client/AMNS.png",
   },
   {
     name: "Jenny",
-    img: "/logo/04.avif",
+    img: "/client/capital.png",
   },
   {
     name: "Jamess",
-    img: "/logo/05.avif",
+    img: "/client/glpcl1.png",
   },
   {
     name: "Jamesss",
-    img: "/logo/06.avif",
+    img: "/client/gnfc.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/gsecl.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/heatex.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/ibl.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/jsw.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/kribhco.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/lnt.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/reliance.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/THERMAX.png",
+  },
+  {
+    name: "Jamesss",
+    img: "/client/vesuvius.png",
   },
 ]
 
@@ -32,9 +68,9 @@ const ReviewCard = ({
   return (
     <div className="mx-4">
       <Image
-        className="h-16 w-auto object-contain"
-        width={120}
-        height={60}
+        className=" w-auto object-contain"
+        width={150}
+        height={150}
         alt="Client logo"
         src={img || "/placeholder.svg"}
       />
@@ -49,7 +85,7 @@ export function Ourclient() {
          <h2 className="text-4xl md:text-5xl font-nunito font-bold text-blue mb-4">Our Clients</h2>
          <div className="w-20 h-1 bg-gradient-to-r from-gold via-gold-light to-gold mx-auto" />
         </div>
-      <Marquee pauseOnHover className="[--duration:20s]">
+      <Marquee pauseOnHover className="[--duration:40s]">
         {reviews.map((review) => (
           <ReviewCard key={review.name} {...review} />
         ))}

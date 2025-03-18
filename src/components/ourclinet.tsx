@@ -3,89 +3,36 @@ import Image from "next/image"
 
 const reviews = [
   {
-    name: "John",
-    img: "/client/aditya.png",
-  },
-  {
-    name: "Jane",
     img: "/client/AMNS.png",
   },
   {
-    name: "Jenny",
-    img: "/client/capital.png",
-  },
-  {
-    name: "Jamess",
-    img: "/client/glpcl1.png",
-  },
-  {
-    name: "Jamesss",
-    img: "/client/gnfc.png",
-  },
-  {
-    name: "Jamesss",
-    img: "/client/gsecl.png",
-  },
-  {
-    name: "Jamesss",
-    img: "/client/heatex.png",
-  },
-  {
-    name: "Jamesss",
-    img: "/client/ibl.png",
-  },
-  {
-    name: "Jamesss",
-    img: "/client/jsw.png",
-  },
-  {
-    name: "Jamesss",
-    img: "/client/kribhco.png",
-  },
-  {
-    name: "Jamesss",
-    img: "/client/lnt.png",
-  },
-  {
-    name: "Jamesss",
     img: "/client/reliance.png",
   },
   {
-    name: "Jamesss",
-    img: "/client/THERMAX.png",
+    img: "/client/bhilosa.png",
   },
   {
-    name: "Jamesss",
-    img: "/client/vesuvius.png",
+    img: "/client/Garden-logo-1.jpg",
   },
   {
-    name: "Jamesss",
-    img: "/client/APAR-INDUSTRIES.jpg",
+    img: "/client/shree-durga.png",
   },
   {
-    name: "Jamesss",
-    img: "/client/saint-global.png",
+    img: "/client/jiwarajka_textile_industries_logo.jpeg",
   },
   {
-    name: "Jamesss",
-    img: "/client/nippon-steel.png",
+    img: "/client/snowman.png",
   },
   {
-    name: "Jamesss",
-    img: "/client/Screenshot_14.png",
+    img: "/client/wellknown.avif",
   },
   {
-    name: "Jamesss",
-    img: "/client/capital (1).png",
+    img: "/client/alok.png",
   },
   {
-    name: "Jamesss",
-    img: "/client/refratechnik.png",
+    img: "/client/sanathan.png",
   },
-  {
-    name: "Jamesss",
-    img: "/client/essar.png",
-  },
+  
 ]
 
 const ReviewCard = ({
@@ -115,7 +62,7 @@ export function Ourclient() {
         </div>
       <Marquee pauseOnHover className="[--duration:40s]">
         {reviews.map((review) => (
-          <ReviewCard key={review.name} {...review} />
+          <ReviewCard key={review.img} {...review} />
         ))}
       </Marquee>
     </div>

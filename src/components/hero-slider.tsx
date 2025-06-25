@@ -5,48 +5,100 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-const slides = [
+// Default slides as a fallback
+const defaultSlides = [
   {
-    id: 1,
+    _id: "1",
     title: "Customized Packaging Solutions",
     description:
       "We at RISPL are a group of technocrats with a wealth of experience and expertise in offering Customized Packaging solutions including Developing, Designing and Supplying products, and after sale services.",
     image: "/images/slider/slider2.jpg",
     highlight: "Expertise in Custom Solutions",
+    order: 0,
+    active: true,
   },
   {
-    id: 2,
+    _id: "2",
     title: "Turnkey Automation Projects",
     description:
       "We are engaged in design and supply of high quality turnkey automation projects, with Modular Flexible Conveyors Solutions for various industry segments.",
     image: "/images/slider/slider1.jpg",
     highlight: "Advanced Automation",
+    order: 1,
+    active: true,
   },
   {
-    id: 3,
+    _id: "3",
     title: "Industry-Wide Solutions",
     description:
-      "Serving multiple sectors including Food, Pharmaceuticals, FMCG, Beverages, Automobile and Engineering industries with process equRISPLent and automation solutions.",
+      "Serving multiple sectors including Food, Pharmaceuticals, FMCG, Beverages, Automobile and Engineering industries with process equipment and automation solutions.",
     image: "/images/slider/slider3.jpg",
     highlight: "Multi-Industry Expertise",
+    order: 2,
+    active: true,
   },
 ]
 
+interface Slide {
+  _id: string
+  title: string
+  description: string
+  highlight: string
+  image: string
+  order: number
+  active: boolean
+}
+
 export function HeroSlider() {
+  const [slides, setSlides] = React.useState<Slide[]>([])
+  const [loading, setLoading] = React.useState(true)
   const [currentSlide, setCurrentSlide] = React.useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = React.useState(true)
   const autoPlayRef = React.useRef<NodeJS.Timeout | undefined>(undefined)
+  const [mounted, setMounted] = React.useState(false)
 
-  const nextSlide = React.useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length)
+  // Set mounted state to true when component mounts
+  React.useEffect(() => {
+    setMounted(true)
   }, [])
 
+  // Fetch slides from API
+  React.useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const res = await fetch("/api/sliders")
+        const data = await res.json()
+
+        if (data.success && data.data.length > 0) {
+          setSlides(data.data)
+        } else {
+          // Fallback to default slides if none found in the database
+          setSlides(defaultSlides)
+        }
+      } catch (error) {
+        console.error("Error fetching slides:", error)
+        // Use default slides on error
+        setSlides(defaultSlides)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchSlides()
+  }, [])
+
+  const nextSlide = React.useCallback(() => {
+    if (slides.length === 0) return
+    setCurrentSlide((prev) => (prev + 1) % slides.length)
+  }, [slides.length])
+
   const prevSlide = () => {
+    if (slides.length === 0) return
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
   }
 
   React.useEffect(() => {
-    if (isAutoPlaying) {
+    if (isAutoPlaying && slides.length > 0) {
       autoPlayRef.current = setInterval(nextSlide, 5000)
     }
     return () => {
@@ -54,7 +106,15 @@ export function HeroSlider() {
         clearInterval(autoPlayRef.current)
       }
     }
-  }, [isAutoPlaying, nextSlide])
+  }, [isAutoPlaying, nextSlide, slides.length])
+
+  // Don't render anything until client-side hydration is complete
+  if (!mounted) return null
+
+  // Don't render anything while loading or if no slides
+  if (loading || slides.length === 0) {
+    return null
+  }
 
   return (
     <div className="relative h-screen -top-14 w-full bg-blue-dark overflow-hidden">

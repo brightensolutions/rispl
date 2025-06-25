@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { motion } from "framer-motion"
-import { Mail, Phone, Globe, MapPin, Send, Loader2, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import { Mail, Phone, Globe, MapPin, Send, Loader2, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -21,33 +21,35 @@ export function ContactForm() {
     setIsLoading(true)
 
     try {
-      // Create the message with proper line breaks
-      const whatsappMessage = 
-        `*New Contact Form Submission*%0A%0A` +
-        `*Name:* ${formData.firstName} ${formData.lastName}%0A` +
-        `*Email:* ${formData.email}%0A` +
-        `*Subject:* ${formData.subject}%0A%0A` +
-        `*Message:*%0A${formData.message}`
+      // Submit to our API to store in database
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
 
-      // Open WhatsApp with the formatted message
-      window.open(`https://wa.me/919818879945?text=${whatsappMessage}`, '_blank')
-      
-      toast.success("Opening WhatsApp...")
-      
-      // Reset form after small delay
-      setTimeout(() => {
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          subject: "",
-          message: ""
-        })
-        setIsLoading(false)
-      }, 1000)
+      const result = await response.json()
 
-    } catch  {
+      if (!result.success) {
+        throw new Error(result.message || "Failed to submit form")
+      }
+
+      toast.success("Thank you for your message! We'll get back to you soon.")
+
+      // Reset form after successful submission
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        subject: "",
+        message: "",
+      })
+    } catch (error) {
+      console.error("Form submission error:", error)
       toast.error("Something went wrong. Please try again.")
+    } finally {
       setIsLoading(false)
     }
   }
@@ -82,8 +84,7 @@ export function ContactForm() {
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Contact Information */}
-            <div
-            >
+            <div>
               <div className="h-[730px] bg-white rounded-3xl p-8 shadow-lg">
                 <h3 className="text-3xl font-nunito font-bold text-blue mb-8">Contact Information</h3>
 
@@ -91,7 +92,7 @@ export function ContactForm() {
                   {[
                     {
                       icon: Mail,
-                      title: "Email",
+                      title: "Email ",
                       value: "info@rispl.co",
                       href: "mailto:info@rispl.co",
                     },
@@ -103,17 +104,16 @@ export function ContactForm() {
                     },
                     {
                       icon: Globe,
-                      title: "Website",
+                      title: "Website ",
                       value: "www.rispl.co",
                       href: "https://www.rispl.com",
                     },
                     {
                       icon: MapPin,
-                      title: "Registered Office",
+                      title: "Registered Office ",
                       value: "PLOT 47-50, BHATPORE GIDC, NR. GAIL COLONY, BHATPORE, SURAT-394510.",
                       href: "https://maps.google.com",
                     },
-              
                   ].map((item, index) => (
                     <motion.a
                       key={index}
@@ -170,8 +170,7 @@ export function ContactForm() {
             </div>
 
             {/* Contact Form */}
-            <div
-            >
+            <div>
               <div className="md:h-[720px] h-full bg-white rounded-3xl p-8 shadow-lg">
                 <form onSubmit={handleSubmit} className="h-full flex flex-col">
                   <div className="flex-grow space-y-6">
@@ -183,7 +182,7 @@ export function ContactForm() {
                           required
                           value={formData.firstName}
                           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          className="w-full px-4 py-3 outline-none rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
+                          className="w-full px-4 py-3 outline-none text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
                         />
                       </div>
                       <div>
@@ -193,7 +192,7 @@ export function ContactForm() {
                           required
                           value={formData.lastName}
                           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          className="w-full px-4 py-3 outline-none rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
+                          className="w-full px-4 py-3 outline-none text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
                         />
                       </div>
                     </div>
@@ -205,7 +204,7 @@ export function ContactForm() {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 outline-none rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
+                        className="w-full px-4 py-3 outline-none text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
                       />
                     </div>
 
@@ -216,7 +215,7 @@ export function ContactForm() {
                         required
                         value={formData.subject}
                         onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                        className="w-full px-4 py-3 outline-none rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
+                        className="w-full px-4 py-3 outline-none text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
                         placeholder="How can we help you?"
                       />
                     </div>
@@ -228,7 +227,7 @@ export function ContactForm() {
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         rows={3}
-                        className="w-full outline-none px-4 py-3 rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors resize-none"
+                        className="w-full outline-none px-4 py-3 text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors resize-none"
                         placeholder="Your message..."
                       />
                     </div>
@@ -251,7 +250,7 @@ export function ContactForm() {
                       ) : (
                         <>
                           <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                          Send via WhatsApp
+                          Send Message
                         </>
                       )}
                     </div>
@@ -265,3 +264,4 @@ export function ContactForm() {
     </section>
   )
 }
+

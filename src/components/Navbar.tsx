@@ -3,13 +3,14 @@
 import * as React from "react"
 import Link from "next/link"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
-import { ChevronDown, Menu, ArrowRight } from 'lucide-react'
+import { ChevronDown, Menu, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
-const menuItems = [
+// Define the base menu items without industries, services, and products
+const baseMenuItems = [
   { title: "Home", href: "/" },
   {
     title: "Company",
@@ -34,98 +35,11 @@ const menuItems = [
         href: "/about/our-values",
         description: "Explore our guiding principles",
       },
-      // {
-      //   title: "Our Gallery",
-      //   href: "/about/gallery",
-      //  description: "Discover our collection of memorable moments and visuals."
-      // },
     ],
   },
-  {
-    title: "Industries",
-    items: [
-      {
-        title: "FMCG",
-        href: "/services/one",
-        description: "Fast-moving consumer goods solutions",
-      },
-      {
-        title: "Foods & Beverages",
-        href: "/services/two",
-        description: "Packaging solutions for F&B industry",
-      },
-      {
-        title: "Fibre & Textile",
-        href: "/services/three",
-        description: "Specialized textile industry solutions",
-      },
-      {
-        title: "Logistics & WH Industries",
-        href: "/services/four",
-        description: "Warehouse and logistics optimization",
-      },
-      {
-        title: "Automobile",
-        href: "/services/five",
-        description: "Automotive industry solutions",
-      },
-      {
-        title: "General Manufacturing & Industries",
-        href: "/services/six",
-        description: "Comprehensive manufacturing solutions",
-      },
-    ],
-  },
-  {
-    title: "Solutions & Services",
-    items: [
-      {
-        title: "Unitization and Bundling",
-        href: "/solutions/unitization-bundling",
-        description: "Efficient bundling solutions",
-      },
-      {
-        title: "WH Solutions",
-        href: "/solutions/warehouse-solutions",
-        description: "Warehouse management systems",
-      },
-      {
-        title: "Contract packaging",
-        href: "/solutions/contract-packaging",
-        description: "Professional packaging services",
-      },
-      {
-        title: "Consultancy",
-        href: "/solutions/consultancy",
-        description: "Expert guidance and support",
-      },
-      {
-        title: "Customized Automation & Integration",
-        href: "/solutions/complete-automation-lines",
-        description: "Tailored automation solutions",
-      },
-      {
-        title: "Packaging Optimization",
-        href: "/solutions/packaging-optimization",
-        description: "Improve packaging efficiency",
-      },
-    ],
-  },
-  {
-    title: "Products",
-    items: [
-      {
-        title: "Equipment",
-        href: "/Products/equipment",
-        description: "High-quality packaging equipment",
-      },
-      {
-        title: "Consumables",
-        href: "/Products/consumables",
-        description: "Essential packaging materials",
-      },
-    ],
-  },
+  // Industries will be added dynamically
+  // Solutions & Services will be added dynamically
+  // Products will be added dynamically
 ]
 
 export function Navbar() {
@@ -133,6 +47,104 @@ export function Navbar() {
   const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null)
   const [isOpen, setIsOpen] = React.useState(false)
   const { scrollY } = useScroll()
+  const [menuItems, setMenuItems] = React.useState(baseMenuItems)
+  const [loading, setLoading] = React.useState(true)
+
+  // Fetch industries, services, and products from the API
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch industries
+        const industriesResponse = await fetch("/api/industries")
+        let industries = []
+        if (industriesResponse.ok) {
+          industries = await industriesResponse.json()
+        }
+
+        // Fetch services
+        const servicesResponse = await fetch("/api/services")
+        let services = []
+        if (servicesResponse.ok) {
+          services = await servicesResponse.json()
+        }
+
+        // Fetch equipment categories
+        const equipmentResponse = await fetch("/api/products?type=equipment")
+        let equipmentCategories = []
+        if (equipmentResponse.ok) {
+          equipmentCategories = await equipmentResponse.json()
+        }
+
+        // Fetch consumables categories
+        const consumablesResponse = await fetch("/api/products?type=consumables")
+        let consumablesCategories = []
+        if (consumablesResponse.ok) {
+          consumablesCategories = await consumablesResponse.json()
+        }
+
+        // Create the industries menu item
+        const industriesMenuItem = {
+          title: "Industries",
+          items: industries.map((industry: any) => ({
+            title: industry.title,
+            href: `/industries/${industry.slug}`,
+            description: industry.shortDescription,
+          })),
+        }
+
+        // Create the services menu item
+        const servicesMenuItem = {
+          title: "Solutions & Services",
+          items: services.map((service: any) => ({
+            title: service.title,
+            href: `/solutions/${service.slug}`,
+            description: service.description,
+          })),
+        }
+
+        // Create the products menu item
+        const productsMenuItem = {
+          title: "Products",
+          items: [
+            {
+              title: "Equipment",
+              href: "/Products/equipment",
+              description: "High-quality packaging equipment",
+              // subItems: equipmentCategories.map((category: any) => ({
+              //   title: category.title,
+              //   href: `/Products/equipment/${category.id}`,
+              //   description: category.description,
+              // })),
+            },
+            {
+              title: "Consumables",
+              href: "/Products/consumables",
+              description: "Essential packaging materials",
+              // subItems: consumablesCategories.map((category: any) => ({
+              //   title: category.title,
+              //   href: `/Products/consumables/${category.id}`,
+              //   description: category.description,
+              // })),
+            },
+          ],
+        }
+
+        // Insert the menu items
+        const updatedMenuItems = [...baseMenuItems]
+        updatedMenuItems.splice(2, 0, industriesMenuItem) // Insert industries after Company
+        updatedMenuItems.splice(3, 0, servicesMenuItem) // Insert services after Industries
+        updatedMenuItems.splice(4, 0, productsMenuItem) // Insert products after Services
+
+        setMenuItems(updatedMenuItems)
+      } catch (error) {
+        console.error("Error fetching menu data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 50)
@@ -150,7 +162,7 @@ export function Navbar() {
       transition={{ duration: 0.3 }}
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300 py-3",
-        isScrolled ? "bg-white shadow-md" : "bg-white"
+        isScrolled ? "bg-white shadow-md" : "bg-white",
       )}
     >
       <div className="2xl:max-w-[1440px] mx-auto px-4 md:py-4">
@@ -177,14 +189,12 @@ export function Navbar() {
               >
                 {item.items ? (
                   <>
-                    <button
-                      className="flex items-center px-4 py-2 text-[18px] font-medium font-poppins text-blue-dark hover:text-gold transition-colors"
-                    >
+                    <button className="flex items-center px-4 py-2 text-[18px] font-medium font-poppins text-blue-dark hover:text-gold transition-colors">
                       {item.title}
                       <ChevronDown
                         className={cn(
                           "ml-1 h-4 w-4 transition-transform duration-200",
-                          activeDropdown === item.title && "rotate-180"
+                          activeDropdown === item.title && "rotate-180",
                         )}
                       />
                     </button>
@@ -200,23 +210,43 @@ export function Navbar() {
                           </div>
 
                           {/* Dropdown items */}
-                          <div className="p-2">
+                          <div className="p-2 max-h-[70vh] overflow-y-auto">
                             {item.items.map((subItem) => (
-                              <Link
-                                key={subItem.title}
-                                href={subItem.href}
-                                className="group flex flex-col p-3 rounded-md hover:bg-blue-50 transition-all duration-200"
-                              >
-                                <div className="flex items-center justify-between">
-                                  <span className="font-medium text-blue-dark group-hover:text-gold transition-colors">
-                                    {subItem.title}
-                                  </span>
-                                  <ArrowRight className="h-4 w-4 text-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                                </div>
-                                <span className="text-sm text-gray-500 mt-0.5">
-                                  {subItem.description}
-                                </span>
-                              </Link>
+                              <div key={subItem.title}>
+                                <Link
+                                  href={subItem.href}
+                                  className="group flex flex-col p-3 rounded-md hover:bg-blue-50 transition-all duration-200"
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <span className="font-medium text-blue-dark group-hover:text-gold transition-colors">
+                                      {subItem.title}
+                                    </span>
+                                    <ArrowRight className="h-4 w-4 text-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                  </div>
+                                  <span className="text-sm text-gray-500 mt-0.5">{subItem.description}</span>
+                                </Link>
+
+                                {/* Sub-items for Products */}
+                                {subItem.subItems && activeDropdown === "Products" && (
+                                  <div className="ml-4 mt-2 border-l-2 border-blue-100 pl-2">
+                                    {subItem.subItems.map((subSubItem: any) => (
+                                      <Link
+                                        key={subSubItem.title}
+                                        href={subSubItem.href}
+                                        className="group flex flex-col p-2 rounded-md hover:bg-blue-50 transition-all duration-200"
+                                      >
+                                        <div className="flex items-center justify-between">
+                                          <span className="font-medium text-sm text-blue-dark group-hover:text-gold transition-colors">
+                                            {subSubItem.title}
+                                          </span>
+                                          <ArrowRight className="h-3 w-3 text-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                        </div>
+                                        <span className="text-xs text-gray-500 mt-0.5">{subSubItem.description}</span>
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
                             ))}
                           </div>
                         </div>
@@ -245,14 +275,14 @@ export function Navbar() {
           </nav>
 
           {/* Mobile Menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen} >
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-            <Button variant="ghost" size="icon" className="h-12 w-12">
+              <Button variant="ghost" size="icon" className="h-12 w-12">
                 <Menu className="h-8 w-8 text-blue-dark" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] pt-5 bg-white">
-              <div className="flex flex-col py-2">
+              <div className="flex flex-col py-2 overflow-y-auto max-h-[calc(100vh-100px)]">
                 {menuItems.map((item) => (
                   <div key={item.title} className="flex flex-col">
                     {!item.items ? (
@@ -266,40 +296,57 @@ export function Navbar() {
                     ) : (
                       <div
                         className="relative"
-                        onClick={() =>
-                          setActiveDropdown(
-                            activeDropdown === item.title ? null : item.title
-                          )
-                        }
+                        onClick={() => setActiveDropdown(activeDropdown === item.title ? null : item.title)}
                       >
                         <button className="flex items-center justify-between w-full text-[18px] font-medium font-poppins px-4 py-2 text-blue-dark hover:text-gold transition-colors">
                           {item.title}
                           <ChevronDown
                             className={cn(
                               "h-4 w-4 transition-transform duration-200",
-                              activeDropdown === item.title && "rotate-180"
+                              activeDropdown === item.title && "rotate-180",
                             )}
                           />
                         </button>
                         {activeDropdown === item.title && (
                           <div className="pl-4 border-l border-gray-200 ml-4 bg-gray-50">
                             {item.items.map((subItem) => (
-                              <Link
-                                key={subItem.title}
-                                href={subItem.href}
-                                onClick={handleMobileItemClick}
-                                className="flex flex-col p-3 hover:bg-gray-100 transition-colors rounded-md group"
-                              >
-                                <div className="flex items-center justify-between">
-                                  <span className="font-medium text-blue-dark group-hover:text-gold">
-                                    {subItem.title}
-                                  </span>
-                                  <ArrowRight className="h-4 w-4 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                                </div>
-                                <span className="text-sm text-gray-500 mt-0.5">
-                                  {subItem.description}
-                                </span>
-                              </Link>
+                              <div key={subItem.title}>
+                                <Link
+                                  href={subItem.href}
+                                  onClick={handleMobileItemClick}
+                                  className="flex flex-col p-3 hover:bg-gray-100 transition-colors rounded-md group"
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <span className="font-medium text-blue-dark group-hover:text-gold">
+                                      {subItem.title}
+                                    </span>
+                                    <ArrowRight className="h-4 w-4 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                  </div>
+                                  <span className="text-sm text-gray-500 mt-0.5">{subItem.description}</span>
+                                </Link>
+
+                                {/* Sub-items for Products */}
+                                {subItem.subItems && activeDropdown === "Products" && (
+                                  <div className="ml-4 mt-2 border-l-2 border-gray-200 pl-2">
+                                    {subItem.subItems.map((subSubItem: any) => (
+                                      <Link
+                                        key={subSubItem.title}
+                                        href={subSubItem.href}
+                                        onClick={handleMobileItemClick}
+                                        className="flex flex-col p-2 hover:bg-gray-100 transition-colors rounded-md group"
+                                      >
+                                        <div className="flex items-center justify-between">
+                                          <span className="font-medium text-sm text-blue-dark group-hover:text-gold">
+                                            {subSubItem.title}
+                                          </span>
+                                          <ArrowRight className="h-3 w-3 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                        </div>
+                                        <span className="text-xs text-gray-500 mt-0.5">{subSubItem.description}</span>
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
                             ))}
                           </div>
                         )}
@@ -308,7 +355,7 @@ export function Navbar() {
                   </div>
                 ))}
               </div>
-              <div className="p-4  mt-auto">
+              <div className="p-4 mt-auto">
                 <Link
                   href="/contact"
                   onClick={handleMobileItemClick}
@@ -324,3 +371,4 @@ export function Navbar() {
     </motion.header>
   )
 }
+

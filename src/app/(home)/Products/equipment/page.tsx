@@ -1,4 +1,4 @@
-import { EquipmentGrid } from "@/components/equipment-grid"
+import { ProductsGrid } from "@/components/product-grid"
 import { PageTitle } from "@/components/other-page-title"
 
 export default function EquipmentPage() {
@@ -9,7 +9,7 @@ export default function EquipmentPage() {
         subtitle="High-quality packaging equipment for your business needs"
         backgroundImage="/images/equipment-bg.jpg"
       />
-      <EquipmentGrid />
+      <ProductsGrid type="equipment" />
     </div>
   )
 }

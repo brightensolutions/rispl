@@ -1,9 +1,19 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import { url } from "inspector";
-import Image from "next/image";
-import { useRef } from "react";
+import { motion } from "framer-motion"
+import Image from "next/image"
+import { useRef, useState, useEffect } from "react"
+
+interface MissionVisionData {
+  mission: string
+  vision: string
+  chairmanMessage: string
+  chairmanName: string
+  chairmanTitle: string
+  chairmanImage: string
+  backgroundImage: string
+  yearsExperience: number
+}
 
 const GradientNumber = ({ number }: { number: string }) => (
   <motion.div
@@ -13,8 +23,7 @@ const GradientNumber = ({ number }: { number: string }) => (
     transition={{ duration: 0.6, delay: 0.2 }}
     className="text-[80px] md:text-[120px] font-nunito font-bold select-none"
     style={{
-      background:
-        "linear-gradient(to right, #bda03b, #ecdc77, #e3ca65, #EDC967)",
+      background: "linear-gradient(to right, #bda03b, #ecdc77, #e3ca65, #EDC967)",
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
       opacity: 0.2,
@@ -22,25 +31,78 @@ const GradientNumber = ({ number }: { number: string }) => (
   >
     {number}
   </motion.div>
-);
+)
 
 export function MissionVision() {
-  const containerRef = useRef(null);
+  const containerRef = useRef(null)
+  const [data, setData] = useState<MissionVisionData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+  const [mounted, setMounted] = useState(false)
+
+  // Set mounted state to true when component mounts
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Fetch mission-vision data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/mission-vision")
+        const result = await res.json()
+
+        if (result.success) {
+          setData(result.data)
+        } else {
+          setError(result.message || "Failed to fetch content")
+        }
+      } catch (error) {
+        console.error("Error fetching mission-vision data:", error)
+        setError("An error occurred while fetching content")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  // Don't render anything until client-side hydration is complete
+  if (!mounted) return null
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section className="relative min-h-screen bg-blue-dark flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gold"></div>
+      </section>
+    )
+  }
+
+  // Show error state
+  if (error || !data) {
+    return (
+      <section className="relative min-h-screen bg-blue-dark flex items-center justify-center">
+        <div className="text-white text-center">
+          <p>Failed to load content. Please try again later.</p>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section
-  ref={containerRef}
-  className="relative min-h-screen overflow-hidden"
-  style={{ 
-    backgroundImage: `linear-gradient(to bottom, rgba(1, 42, 84, 0.01), rgba(1, 42, 84, 0.85)), url("/images/our-mission-bg.jpg")`,
-    backgroundAttachment: "fixed",
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat"
-  }}
->
-     
-
+      ref={containerRef}
+      className="relative min-h-screen overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(to bottom, rgba(1, 42, 84, 0.85), rgba(1, 42, 84, 0.95)), url("${data.backgroundImage}")`,
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {/* Animated Particles */}
       <div className="absolute inset-0">
         {[...Array(20)].map((_, i) => (
@@ -75,9 +137,7 @@ export function MissionVision() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-4xl md:text-6xl font-nunito font-bold text-white mb-4">
-            Our Purpose
-          </h2>
+          <h2 className="text-4xl md:text-6xl font-nunito font-bold text-white mb-4">Our Purpose</h2>
           <motion.div
             className="w-20 md:w-24 h-1 bg-gradient-to-r from-gold via-gold-light to-gold mx-auto"
             initial={{ width: 0 }}
@@ -116,11 +176,9 @@ export function MissionVision() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="text-white/90  font-roboto text-base md:text-lg leading-relaxed"
+                  className="text-white/90 font-roboto text-base md:text-lg leading-relaxed"
                 >
-                  To Develop Innovative, Optimal, Recyclable and Sustainable
-                  Packaging Solutions & Supply Chain for our Customer. Always
-                  Deliver Products and services to exceed customer expectations.
+                  {data.mission}
                 </motion.p>
               </div>
             </motion.div>
@@ -164,8 +222,7 @@ export function MissionVision() {
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="text-white/90 font-roboto text-base md:text-lg leading-relaxed"
                 >
-                  Our vision is to work towards Next Generation Packaging and
-                  improve current packaging standards of the industry.
+                  {data.vision}
                 </motion.p>
               </div>
             </motion.div>
@@ -211,8 +268,7 @@ export function MissionVision() {
                       transition={{ duration: 0.6, delay: 0.4 }}
                       className="text-white/90 font-roboto text-lg leading-relaxed italic mb-6"
                     >
-                      "It is my promise that we will continue to invest and do
-                      our part to help the people wherever we operate."
+                      "{data.chairmanMessage}"
                     </motion.p>
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
@@ -221,10 +277,8 @@ export function MissionVision() {
                       transition={{ duration: 0.6, delay: 0.5 }}
                       className="border-l-2 border-gold pl-4"
                     >
-                      <p className="text-white font-poppins">Mr. Aadil Patel</p>
-                      <p className="text-white/60 font-roboto text-sm">
-                        Chairman, RISPL Group
-                      </p>
+                      <p className="text-white font-poppins">{data.chairmanName}</p>
+                      <p className="text-white/60 font-roboto text-sm">{data.chairmanTitle}</p>
                     </motion.div>
                   </div>
 
@@ -244,7 +298,7 @@ export function MissionVision() {
                         {/* Image Container */}
                         <div className="relative h-full w-full rounded-xl overflow-hidden">
                           <Image
-                            src="/images/aadil.jpg"
+                            src={data.chairmanImage || "/placeholder.svg"}
                             alt="Chairman"
                             fill
                             className="object-cover scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
@@ -270,9 +324,7 @@ export function MissionVision() {
                       whileHover={{ scale: 1.05 }}
                       className="absolute -bottom-4 -left-4 bg-gradient-to-r from-gold via-gold-light to-gold text-blue-darker rounded-[5px] shadow-xl p-4 text-center"
                     >
-                      <p className="text-2xl md:text-3xl font-bold font-nunito">
-                        25+
-                      </p>
+                      <p className="text-2xl md:text-3xl font-bold font-nunito">{data.yearsExperience}+</p>
                       <p className="text-sm font-medium">Years Experience</p>
                     </motion.div>
                   </motion.div>
@@ -283,5 +335,6 @@ export function MissionVision() {
         </div>
       </div>
     </section>
-  );
+  )
 }
+

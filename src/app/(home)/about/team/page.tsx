@@ -1,12 +1,13 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { LinkedinIcon, TwitterIcon, Mail, ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { PageTitle } from "@/components/other-page-title"
 import { Card, CardContent } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface SocialLinks {
   linkedin: string
@@ -15,11 +16,23 @@ interface SocialLinks {
 }
 
 interface TeamMember {
+  _id: string
   name: string
   role: string
   subRole: string
   image: string
   social: SocialLinks
+  order: number
+  active: boolean
+}
+
+interface TeamPhoto {
+  _id: string
+  title: string
+  description: string
+  image: string
+  ctaText: string
+  ctaLink: string
 }
 
 interface TeamMemberCardProps {
@@ -27,45 +40,55 @@ interface TeamMemberCardProps {
   index: number
 }
 
-const teamMembers: TeamMember[] = [
-  {
-    name: "Adil Patel",
-    role: "Chairman & Managing Director",
-    subRole: ".",
-    image: "/images/aadil.jpg",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      email: "mailto:example@domain.com",
-    },
-  },
-  {
-    name: "Arzan Patel",
-    role: "Director",
-    subRole: "Commercial & Corporate Affairs",
-    image: "/images/Adil Patel.jpg",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      email: "mailto:example@domain.com",
-    },
-  },
-  {
-    name: "Rajinder Vakil",
-    role: "Director ",
-    subRole: "Strategic Business & Projects",
-    image: "/images/Rajinder-Vakil.jpg",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      email: "mailto:example@domain.com",
-    },
-  },
-]
-
-type TeamPhotoSectionProps = {}
-
 export default function TeamSection(): React.ReactElement {
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
+  const [teamPhoto, setTeamPhoto] = useState<TeamPhoto | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+  const [mounted, setMounted] = useState(false)
+
+  // Set mounted state to true when component mounts
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Fetch team members and team photo data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch team members
+        const membersRes = await fetch("/api/team-members")
+        const membersData = await membersRes.json()
+
+        if (membersData.success) {
+          setTeamMembers(membersData.data)
+        } else {
+          setError(membersData.message || "Failed to fetch team members")
+        }
+
+        // Fetch team photo
+        const photoRes = await fetch("/api/team-photo")
+        const photoData = await photoRes.json()
+
+        if (photoData.success) {
+          setTeamPhoto(photoData.data)
+        } else {
+          setError(photoData.message || "Failed to fetch team photo")
+        }
+      } catch (error) {
+        console.error("Error fetching team data:", error)
+        setError("An error occurred while fetching team data")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  // Don't render anything until client-side hydration is complete
+  if (!mounted) return <></>
+
   return (
     <div className="overflow-hidden">
       <PageTitle
@@ -85,17 +108,51 @@ export default function TeamSection(): React.ReactElement {
           </div>
 
           {/* Leadership Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
-            {teamMembers.map((member, index) => (
-              <TeamMemberCard key={member.name} member={member} index={index} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+              {[...Array(3)].map((_, index) => (
+                <TeamMemberCardSkeleton key={index} />
+              ))}
+            </div>
+          ) : teamMembers.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+              {teamMembers.map((member, index) => (
+                <TeamMemberCard key={member._id} member={member} index={index} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-500 mb-24">
+              <p>No team members found.</p>
+            </div>
+          )}
 
           {/* Team Photo Section */}
-          <TeamPhotoSection />
+          {loading ? <TeamPhotoSectionSkeleton /> : teamPhoto ? <TeamPhotoSection teamPhoto={teamPhoto} /> : null}
         </div>
       </section>
     </div>
+  )
+}
+
+function TeamMemberCardSkeleton(): React.ReactElement {
+  return (
+    <Card className="overflow-hidden border-none shadow-lg bg-white rounded-2xl">
+      <CardContent className="p-0">
+        {/* Image Container Skeleton */}
+        <div className="relative">
+          <Skeleton className="aspect-square w-full" />
+        </div>
+
+        {/* Content Skeleton */}
+        <div className="p-6">
+          <div className="text-center space-y-3">
+            <Skeleton className="h-8 w-3/4 mx-auto" />
+            <Skeleton className="h-6 w-1/2 mx-auto" />
+            <Skeleton className="h-4 w-1/3 mx-auto" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -165,7 +222,7 @@ function TeamMemberCard({ member, index }: TeamMemberCardProps): React.ReactElem
           <div className="relative p-6">
             <div className="text-center">
               <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-[#012a54] to-[#005281] bg-clip-text text-transparent">
-               {member.name.toUpperCase()}
+                {member.name.toUpperCase()}
               </h3>
               <p className="text-lg font-medium text-[#bda03b] mb-1">{member.role}</p>
               <p className="text-gray-600 text-sm">{member.subRole}</p>
@@ -185,7 +242,17 @@ function TeamMemberCard({ member, index }: TeamMemberCardProps): React.ReactElem
   )
 }
 
-function TeamPhotoSection(): React.ReactElement {
+function TeamPhotoSectionSkeleton(): React.ReactElement {
+  return (
+    <div className="relative">
+      <div className="relative rounded-2xl overflow-hidden">
+        <Skeleton className="h-[400px] md:h-[500px] w-full rounded-xl" />
+      </div>
+    </div>
+  )
+}
+
+function TeamPhotoSection({ teamPhoto }: { teamPhoto: TeamPhoto }): React.ReactElement {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -196,8 +263,8 @@ function TeamPhotoSection(): React.ReactElement {
       <div className="relative rounded-2xl overflow-hidden">
         <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden">
           <Image
-            src="/images/group-photo.avif"
-            alt="Team - Adil Group Of Industries"
+            src={teamPhoto.image || "/placeholder.svg?height=500&width=1200"}
+            alt={teamPhoto.title}
             fill
             className="object-cover object-center"
             priority
@@ -223,9 +290,7 @@ function TeamPhotoSection(): React.ReactElement {
               >
                 {/* Title */}
                 <div className="relative">
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#EDC967]">
-                    Team - Adil Group Of Industries
-                  </h2>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#EDC967]">{teamPhoto.title}</h2>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: "8rem" }}
@@ -241,7 +306,7 @@ function TeamPhotoSection(): React.ReactElement {
                   transition={{ duration: 0.5, delay: 1 }}
                   className="text-white text-lg md:text-xl"
                 >
-                  Together we work towards excellence, innovation, and customer satisfaction.
+                  {teamPhoto.description}
                 </motion.p>
 
                 {/* Call to action button */}
@@ -250,10 +315,13 @@ function TeamPhotoSection(): React.ReactElement {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 1.2 }}
                 >
-                  <button className="mt-4 flex items-center gap-2 text-[#EDC967] hover:text-white transition-colors duration-300 group">
-                    <span>Learn more about our team</span>
+                  <a
+                    href={teamPhoto.ctaLink}
+                    className="mt-4 flex items-center gap-2 text-[#EDC967] hover:text-white transition-colors duration-300 group"
+                  >
+                    <span>{teamPhoto.ctaText}</span>
                     <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
-                  </button>
+                  </a>
                 </motion.div>
               </motion.div>
             </div>

@@ -281,7 +281,7 @@ export function MissionVision() {
                       className="border-l-2 border-gold pl-4"
                     >
                       {/* <p className="text-white font-poppins">{data.chairmanName}</p> */}
-                      <p className="text-white font-poppins">Mr. Adil Patel</p>
+                      <p className="text-white font-poppins">Mr. Adil</p>
                       <p className="text-white/60 font-roboto text-sm">
                         {data.chairmanTitle}
                       </p>

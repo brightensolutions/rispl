@@ -1,28 +1,32 @@
-import { PageTitle } from "@/components/other-page-title"
-import ServiceSection from "@/components/service-section"
-import connectDb from "@/lib/db/db"
-import IndustryModel from "@/lib/Models/industry" // Renamed for clarity
-import { notFound } from "next/navigation"
+import { PageTitle } from "@/components/other-page-title";
+import ServiceSection from "@/components/service-section";
+import connectDb from "@/lib/db/db";
+import IndustryModel from "@/lib/Models/industry"; // Renamed for clarity
+import { notFound } from "next/navigation";
 
-export default async function IndustryPage({ params }: { params: { slug: string } }) {
-  await connectDb()
+export default async function IndustryPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  await connectDb();
 
   // Decode the URL slug to handle spaces and special characters
-  const decodedSlug = decodeURIComponent(params.slug)
+  const decodedSlug = decodeURIComponent(params.slug);
 
   try {
     // Try to find the industry by slug (exact match)
     let industry = await IndustryModel.findOne({
       slug: decodedSlug,
       isActive: true,
-    })
+    });
 
     // If not found, try a case-insensitive search
     if (!industry) {
       industry = await IndustryModel.findOne({
         slug: { $regex: new RegExp(`^${decodedSlug}$`, "i") },
         isActive: true,
-      })
+      });
     }
 
     // If still not found, try to find by title (for backward compatibility)
@@ -30,17 +34,19 @@ export default async function IndustryPage({ params }: { params: { slug: string 
       industry = await IndustryModel.findOne({
         title: decodedSlug,
         isActive: true,
-      })
+      });
     }
 
     // If industry not found, show 404
     if (!industry) {
-      console.log(`Industry not found for slug: ${decodedSlug}`)
-      notFound()
+      console.log(`Industry not found for slug: ${decodedSlug}`);
+      notFound();
     }
 
     // Convert Mongoose document to plain object to avoid hydration issues
-    const industryData = JSON.parse(JSON.stringify(industry.toObject ? industry.toObject() : industry))
+    const industryData = JSON.parse(
+      JSON.stringify(industry.toObject ? industry.toObject() : industry)
+    );
 
     return (
       <div className="overflow-hidden">
@@ -62,24 +68,25 @@ export default async function IndustryPage({ params }: { params: { slug: string 
           buttonText={industryData.buttonText}
         />
       </div>
-    )
+    );
   } catch (error) {
-    console.error("Error fetching industry:", error)
-    notFound()
+    console.error("Error fetching industry:", error);
+    notFound();
   }
 }
 
 // Generate static params for all industries
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   try {
-    await connectDb()
-    const industries = await IndustryModel.find({ isActive: true }).select("slug")
+    await connectDb();
+    const industries = await IndustryModel.find({ isActive: true }).select(
+      "slug"
+    );
     return industries.map((industry) => ({
       slug: industry.slug,
-    }))
+    }));
   } catch (error) {
-    console.error("Error generating static params:", error)
-    return []
+    console.error("Error generating static params:", error);
+    return [];
   }
 }
-

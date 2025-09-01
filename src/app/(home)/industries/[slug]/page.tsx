@@ -11,13 +11,11 @@ function escapeRegex(value: string) {
 export default async function IndustryPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
   await connectDb();
 
-  const { slug } = await params;
-  // Decode the URL slug to handle spaces and special characters
-  const decodedSlug = decodeURIComponent(slug);
+  const decodedSlug = decodeURIComponent(params.slug);
 
   try {
     // Try to find the industry by slug (exact match)

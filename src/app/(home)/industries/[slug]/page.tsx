@@ -1,18 +1,23 @@
 import { PageTitle } from "@/components/other-page-title";
 import ServiceSection from "@/components/service-section";
 import connectDb from "@/lib/db/db";
-import IndustryModel from "@/lib/Models/industry"; // Renamed for clarity
+import IndustryModel from "@/lib/Models/industry";
 import { notFound } from "next/navigation";
+
+function escapeRegex(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 export default async function IndustryPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   await connectDb();
 
+  const { slug } = await params;
   // Decode the URL slug to handle spaces and special characters
-  const decodedSlug = decodeURIComponent(params.slug);
+  const decodedSlug = decodeURIComponent(slug);
 
   try {
     // Try to find the industry by slug (exact match)
@@ -21,10 +26,10 @@ export default async function IndustryPage({
       isActive: true,
     });
 
-    // If not found, try a case-insensitive search
+    // If not found, try a case-insensitive search (use escaped slug for safety)
     if (!industry) {
       industry = await IndustryModel.findOne({
-        slug: { $regex: new RegExp(`^${decodedSlug}$`, "i") },
+        slug: { $regex: new RegExp(`^${escapeRegex(decodedSlug)}$`, "i") },
         isActive: true,
       });
     }

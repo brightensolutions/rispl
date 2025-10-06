@@ -9,17 +9,10 @@ function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// Type for Next.js App Router page props
-interface IndustryPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default async function IndustryPage({ params }: IndustryPageProps) {
+export default async function IndustryPage({ params }: any) {
   await connectDb();
 
-  const decodedSlug = decodeURIComponent(params.slug);
+  const decodedSlug: string = decodeURIComponent(params.slug);
 
   try {
     // Try to find the industry by slug (exact match)

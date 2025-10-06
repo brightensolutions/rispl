@@ -26,11 +26,17 @@ const footerLinks = {
     { name: "Why Us", href: "/about/why-us" },
   ],
   solutions: [
-    { name: "Unitization and Bundling", href: "/solutions/unitization-bundling " },
+    {
+      name: "Unitization and Bundling",
+      href: "/solutions/unitization-bundling ",
+    },
     { name: "WH Solutions", href: "/solutions/warehouse-solutions" },
     { name: "Contract Packaging", href: "/solutions/contract-packaging" },
     { name: "Consultancy Services", href: "/solutions/consultancy" },
-    { name: "Customized Automation", href: "/solutions/complete-automation-lines" },
+    {
+      name: "Customized Automation",
+      href: "/solutions/complete-automation-lines",
+    },
   ],
   industries: [
     { name: "FMCG", href: "/services/one" },
@@ -219,9 +225,7 @@ export function Footer() {
                     className="text-gray-300 hover:text-gold flex items-start gap-3 group"
                   >
                     <MapPin className="w-5 h-5 mt-1 group-hover:text-gold transition-colors" />
-                    <span>
-                    PLOT 47-50, BHATPORE GIDC, NR. GAIL COLONY, BHATPORE, SURAT-394510.
-                    </span>
+                    <span></span>
                   </a>
                 </li>
               </ul>
@@ -229,7 +233,6 @@ export function Footer() {
           </div>
         </div>
 
-        
         {/* Newsletter Section */}
         {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -268,14 +271,17 @@ export function Footer() {
           className="mt-16 pt-8 border-t border-white/10"
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <Link href="http://www.brightensolutions.com/" className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} Brighten Solutions. All rights reserved.
+            <Link
+              href="http://www.brightensolutions.com/"
+              className="text-gray-400 text-sm"
+            >
+              © {new Date().getFullYear()} Brighten Solutions. All rights
+              reserved.
             </Link>
-           
           </div>
         </motion.div>
       </div>
-      <WhatsappButton/>
+      <WhatsappButton />
     </footer>
   );
 }

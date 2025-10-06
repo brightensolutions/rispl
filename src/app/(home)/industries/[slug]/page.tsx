@@ -4,15 +4,19 @@ import connectDb from "@/lib/db/db";
 import IndustryModel from "@/lib/Models/industry";
 import { notFound } from "next/navigation";
 
-// Helper to escape regex special characters
 function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-export default async function IndustryPage({ params }: any) {
+export default async function IndustryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   await connectDb();
 
-  const decodedSlug: string = decodeURIComponent(params.slug);
+  const decodedSlug = decodeURIComponent(slug);
 
   try {
     // Try to find the industry by slug (exact match)
@@ -21,7 +25,7 @@ export default async function IndustryPage({ params }: any) {
       isActive: true,
     });
 
-    // If not found, try a case-insensitive search
+    // If not found, try a case-insensitive search (use escaped slug for safety)
     if (!industry) {
       industry = await IndustryModel.findOne({
         slug: { $regex: new RegExp(`^${escapeRegex(decodedSlug)}$`, "i") },
@@ -29,7 +33,7 @@ export default async function IndustryPage({ params }: any) {
       });
     }
 
-    // If still not found, try to find by title
+    // If still not found, try to find by title (for backward compatibility)
     if (!industry) {
       industry = await IndustryModel.findOne({
         title: decodedSlug,
@@ -43,7 +47,7 @@ export default async function IndustryPage({ params }: any) {
       notFound();
     }
 
-    // Convert Mongoose document to plain object
+    // Convert Mongoose document to plain object to avoid hydration issues
     const industryData = JSON.parse(
       JSON.stringify(industry.toObject ? industry.toObject() : industry)
     );

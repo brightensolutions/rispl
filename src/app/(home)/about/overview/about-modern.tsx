@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { ContactForm } from "@/components/contact-form"
-import { PageTitle } from "@/components/other-page-title"
-import PrinciplesSection from "@/components/principles"
-import ValueServicesTimeline from "@/components/value-services-timeline"
-import { motion } from "framer-motion"
+import { ContactForm } from "@/components/contact-form";
+import { PageTitle } from "@/components/other-page-title";
+import PrinciplesSection from "@/components/principles";
+import ValueServicesTimeline from "@/components/value-services-timeline";
+import { motion } from "framer-motion";
 import {
   Building2,
   PackageCheck,
@@ -20,7 +20,7 @@ import {
   Heart,
   Star,
   Zap,
-} from "lucide-react"
+} from "lucide-react";
 
 // Map of icon names to Lucide React components
 const iconMap = {
@@ -38,7 +38,7 @@ const iconMap = {
   Heart,
   Star,
   Zap,
-}
+};
 
 // Default content in case content prop is undefined
 const defaultContent = {
@@ -49,7 +49,7 @@ const defaultContent = {
     {
       title: "Who We Are",
       content:
-        "We are a group of technocrats with a wealth of experience and expertise behind us, with the Company name as Imperial Pack Masterz (RISPL). We offer Customized Packaging solutions, with well supported service support, to diverse customer segments with trusted Products & best practices.",
+        "We are a group of technocrats with a wealth of experience and expertise behind us, with the Company name as Reliant Industrial Solutions Pvt. Ltd. (RISPL). We offer Customized Packaging solutions, with well supported service support, to diverse customer segments with trusted Products & best practices.",
       icon: "Building2",
       items: [],
     },
@@ -85,37 +85,43 @@ const defaultContent = {
       content:
         "We adopted new Palletizing Technology in the Logistic, Supply Chain & Warehouse industry and follow 5's Ps:",
       icon: "Settings2",
-      items: ["Pallet Stability", "Pallet Replacement", "Profitable", "Product Protection", "Product Efficiency"],
+      items: [
+        "Pallet Stability",
+        "Pallet Replacement",
+        "Profitable",
+        "Product Protection",
+        "Product Efficiency",
+      ],
     },
   ],
-}
+};
 
 export interface Section {
-  title: string
-  content: string
-  icon: string
-  items: string[]
+  title: string;
+  content: string;
+  icon: string;
+  items: string[];
 }
 
 export interface AboutContent {
-  pageTitle: string
-  pageSubtitle: string
-  backgroundImage: string
-  sections: Section[]
+  pageTitle: string;
+  pageSubtitle: string;
+  backgroundImage: string;
+  sections: Section[];
 }
 
 export interface AboutModernProps {
-  content?: AboutContent
+  content?: AboutContent;
 }
 
 export default function AboutModern({ content }: AboutModernProps) {
   // Use provided content or fall back to default content
-  const displayContent = content || defaultContent
+  const displayContent = content || defaultContent;
 
   // Get icon component from icon name
   const getIconComponent = (iconName: string) => {
-    return iconMap[iconName as keyof typeof iconMap] || Building2
-  }
+    return iconMap[iconName as keyof typeof iconMap] || Building2;
+  };
 
   return (
     <div className="relative overflow-hidden">
@@ -132,8 +138,8 @@ export default function AboutModern({ content }: AboutModernProps) {
         <div className="container mx-auto px-4">
           <div className="grid gap-16 max-w-7xl mx-auto">
             {displayContent.sections.map((section, index) => {
-              const IconComponent = getIconComponent(section.icon)
-              const isEven = index % 2 === 0
+              const IconComponent = getIconComponent(section.icon);
+              const isEven = index % 2 === 0;
 
               return (
                 <motion.div
@@ -145,7 +151,9 @@ export default function AboutModern({ content }: AboutModernProps) {
                 >
                   <div
                     className={`relative z-10 grid gap-8 items-center ${
-                      isEven ? "md:grid-cols-[1fr_2fr]" : "md:grid-cols-[2fr_1fr]"
+                      isEven
+                        ? "md:grid-cols-[1fr_2fr]"
+                        : "md:grid-cols-[2fr_1fr]"
                     }`}
                   >
                     {isEven ? (
@@ -161,8 +169,12 @@ export default function AboutModern({ content }: AboutModernProps) {
                         <div className="relative bg-gradient-gold rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-500">
                           <div className="absolute top-0 right-0 w-32 h-32 bg-[#bda03b]/5 rounded-full blur-2xl" />
                           <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#005281]/5 rounded-full blur-2xl" />
-                          <h3 className="text-3xl font-bold font-poppins text-[#005281] mb-4">{section.title}</h3>
-                          <p className="text-gray-600 font-roboto leading-relaxed relative z-10">{section.content}</p>
+                          <h3 className="text-3xl font-bold font-poppins text-[#005281] mb-4">
+                            {section.title}
+                          </h3>
+                          <p className="text-gray-600 font-roboto leading-relaxed relative z-10">
+                            {section.content}
+                          </p>
                           {section.items.length > 0 && (
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
                               {section.items.map((item, itemIndex) => (
@@ -172,7 +184,9 @@ export default function AboutModern({ content }: AboutModernProps) {
                                   className="flex items-center gap-2 group/item"
                                 >
                                   <span className="w-2 h-2 rounded-full bg-[#bda03b] group-hover/item:w-3 transition-all duration-300" />
-                                  <span className="text-gray-600 text-sm">{item}</span>
+                                  <span className="text-gray-600 text-sm">
+                                    {item}
+                                  </span>
                                 </motion.div>
                               ))}
                             </div>
@@ -184,8 +198,12 @@ export default function AboutModern({ content }: AboutModernProps) {
                         <div className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-500 order-2 md:order-1">
                           <div className="absolute top-0 right-0 w-32 h-32 bg-[#bda03b]/5 rounded-full blur-2xl" />
                           <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#005281]/5 rounded-full blur-2xl" />
-                          <h3 className="text-3xl font-bold font-poppins text-[#005281] mb-4">{section.title}</h3>
-                          <p className="text-gray-600 font-roboto mb-6 relative z-10">{section.content}</p>
+                          <h3 className="text-3xl font-bold font-poppins text-[#005281] mb-4">
+                            {section.title}
+                          </h3>
+                          <p className="text-gray-600 font-roboto mb-6 relative z-10">
+                            {section.content}
+                          </p>
                           {section.items.length > 0 && (
                             <div className="grid grid-cols-2 gap-4">
                               {section.items.map((item, itemIndex) => (
@@ -195,7 +213,9 @@ export default function AboutModern({ content }: AboutModernProps) {
                                   className="flex items-center gap-2 group/item"
                                 >
                                   <span className="w-2 h-2 rounded-full bg-[#bda03b] group-hover/item:w-3 transition-all duration-300" />
-                                  <span className="text-gray-600 text-sm">{item}</span>
+                                  <span className="text-gray-600 text-sm">
+                                    {item}
+                                  </span>
                                 </motion.div>
                               ))}
                             </div>
@@ -213,7 +233,7 @@ export default function AboutModern({ content }: AboutModernProps) {
                     )}
                   </div>
                 </motion.div>
-              )
+              );
             })}
           </div>
         </div>
@@ -234,9 +254,15 @@ export default function AboutModern({ content }: AboutModernProps) {
       <style jsx global>{`
         /* Add smooth animation to shadows */
         @keyframes shadowPulse {
-          0% { opacity: 0.1; }
-          50% { opacity: 0.15; }
-          100% { opacity: 0.1; }
+          0% {
+            opacity: 0.1;
+          }
+          50% {
+            opacity: 0.15;
+          }
+          100% {
+            opacity: 0.1;
+          }
         }
 
         .animate-shadow {
@@ -244,6 +270,5 @@ export default function AboutModern({ content }: AboutModernProps) {
         }
       `}</style>
     </div>
-  )
+  );
 }
-

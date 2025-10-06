@@ -40,8 +40,8 @@ const iconMap = {
   Zap,
 };
 
-// Default content in case content prop is undefined
-const defaultContent = {
+// Static content (hardcoded, no DB)
+const staticContent = {
   pageTitle: "About Us",
   pageSubtitle: "Meet our experienced professionals dedicated to your success",
   backgroundImage: "/images/rispl-comapny.jpg",
@@ -96,32 +96,8 @@ const defaultContent = {
   ],
 };
 
-export interface Section {
-  title: string;
-  content: string;
-  icon: string;
-  items: string[];
-}
-
-export interface AboutContent {
-  pageTitle: string;
-  pageSubtitle: string;
-  backgroundImage: string;
-  sections: Section[];
-}
-
-export interface AboutModernProps {
-  content?: AboutContent;
-}
-
-export default function AboutModern({ content }: AboutModernProps) {
-  // Use provided content or fall back to default content
-  const displayContent = content || defaultContent;
-
-  console.log(
-    "AboutModern content being used:",
-    displayContent.sections[0].content
-  );
+export default function AboutModern() {
+  const displayContent = staticContent;
 
   // Get icon component from icon name
   const getIconComponent = (iconName: string) => {
@@ -138,7 +114,8 @@ export default function AboutModern({ content }: AboutModernProps) {
 
       <div className="bg-gradient-gold h-[800px] w-[800px] shadow-2xl blur-2xl opacity-15 rounded-full absolute top-1/4 z-10 -left-[20%]" />
       <div className="bg-gradient-blue h-[800px] w-[800px] shadow-2xl blur-2xl opacity-15 rounded-full absolute top-[50%] z-10 -right-[20%]" />
-      {/* Content Section with increased opacity for better readability */}
+
+      {/* Content Section */}
       <div className="relative bg-white/90">
         <div className="container mx-auto px-4">
           <div className="grid gap-16 max-w-7xl mx-auto">
@@ -257,7 +234,6 @@ export default function AboutModern({ content }: AboutModernProps) {
       </div>
 
       <style jsx global>{`
-        /* Add smooth animation to shadows */
         @keyframes shadowPulse {
           0% {
             opacity: 0.1;

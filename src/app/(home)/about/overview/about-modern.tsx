@@ -49,7 +49,7 @@ const defaultContent = {
     {
       title: "Who We Are",
       content:
-        "We are a group of technocrats with a wealth of experience and expertise behind us, with the Company name as Reliant Industrial Solutions Pvt. Ltd. (RISPL). We offer Customized Packaging solutions, with well supported service support, to diverse customer segments with trusted Products & best practices.",
+        "We are a group of technocrats with a wealth of experience and expertise behind us, with the Company name as RISPL. We offer Customized Packaging solutions, with well supported service support, to diverse customer segments with trusted Products & best practices.",
       icon: "Building2",
       items: [],
     },

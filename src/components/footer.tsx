@@ -226,9 +226,8 @@ export function Footer() {
                   >
                     <MapPin className="w-5 h-5 mt-1 group-hover:text-gold transition-colors" />
                     <span>
-                      704, 7th Floor, Tower B, D Wing, Swastik Universal
-                      Building, Near Valentine Cinema, Piplod, Surat, Gujarat
-                      395007, India
+                      PLOT 47-50, BHATPORE GIDC, NR. GAIL COLONY, BHATPORE,
+                      SURAT-394510.
                     </span>
                   </a>
                 </li>

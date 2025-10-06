@@ -40,7 +40,7 @@ const iconMap = {
   Zap,
 };
 
-// Default content in case content prop is undefined
+// Default static content
 const defaultContent = {
   pageTitle: "About Us",
   pageSubtitle: "Meet our experienced professionals dedicated to your success",
@@ -115,13 +115,16 @@ export interface AboutModernProps {
 }
 
 export default function AboutModern({ content }: AboutModernProps) {
-  // Use provided content or fall back to default content
   const displayContent = content || defaultContent;
 
-  console.log(
-    "AboutModern content being used:",
-    displayContent.sections[0].content
-  );
+  // ---- LOGGING ----
+  console.log("----- AboutModern Page Loaded -----");
+  console.log("Page Title:", displayContent.pageTitle);
+  displayContent.sections.forEach((section, index) => {
+    console.log(`Section ${index + 1} Title:`, section.title);
+    console.log(`Section ${index + 1} Content:`, section.content);
+  });
+  console.log("-----------------------------------");
 
   // Get icon component from icon name
   const getIconComponent = (iconName: string) => {
@@ -138,7 +141,7 @@ export default function AboutModern({ content }: AboutModernProps) {
 
       <div className="bg-gradient-gold h-[800px] w-[800px] shadow-2xl blur-2xl opacity-15 rounded-full absolute top-1/4 z-10 -left-[20%]" />
       <div className="bg-gradient-blue h-[800px] w-[800px] shadow-2xl blur-2xl opacity-15 rounded-full absolute top-[50%] z-10 -right-[20%]" />
-      {/* Content Section with increased opacity for better readability */}
+
       <div className="relative bg-white/90">
         <div className="container mx-auto px-4">
           <div className="grid gap-16 max-w-7xl mx-auto">
@@ -243,21 +246,14 @@ export default function AboutModern({ content }: AboutModernProps) {
           </div>
         </div>
 
-        <div>
-          <ValueServicesTimeline />
-        </div>
-
+        <ValueServicesTimeline />
         <div className="pb-20">
           <PrinciplesSection />
         </div>
-
-        <div>
-          <ContactForm />
-        </div>
+        <ContactForm />
       </div>
 
       <style jsx global>{`
-        /* Add smooth animation to shadows */
         @keyframes shadowPulse {
           0% {
             opacity: 0.1;
@@ -269,7 +265,6 @@ export default function AboutModern({ content }: AboutModernProps) {
             opacity: 0.1;
           }
         }
-
         .animate-shadow {
           animation: shadowPulse 8s infinite ease-in-out;
         }

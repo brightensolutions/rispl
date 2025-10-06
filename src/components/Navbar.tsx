@@ -1,16 +1,35 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { motion, useScroll, useMotionValueEvent } from "framer-motion"
-import { ChevronDown, Menu, ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
-import Image from "next/image"
+import * as React from "react";
+import Link from "next/link";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { ChevronDown, Menu, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+
+interface SubSubMenuItem {
+  title: string;
+  href: string;
+  description: string;
+}
+
+interface SubMenuItem {
+  title: string;
+  href: string;
+  description: string;
+  subItems?: SubSubMenuItem[];
+}
+
+interface MenuItem {
+  title: string;
+  href?: string;
+  items?: SubMenuItem[];
+}
 
 // Define the base menu items without industries, services, and products
-const baseMenuItems = [
+const baseMenuItems: MenuItem[] = [
   { title: "Home", href: "/" },
   {
     title: "Company",
@@ -40,70 +59,73 @@ const baseMenuItems = [
   // Industries will be added dynamically
   // Solutions & Services will be added dynamically
   // Products will be added dynamically
-]
+];
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = React.useState(false)
-  const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null)
-  const [isOpen, setIsOpen] = React.useState(false)
-  const { scrollY } = useScroll()
-  const [menuItems, setMenuItems] = React.useState(baseMenuItems)
-  const [loading, setLoading] = React.useState(true)
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  const [activeDropdown, setActiveDropdown] = React.useState<string | null>(
+    null
+  );
+  const [isOpen, setIsOpen] = React.useState(false);
+  const { scrollY } = useScroll();
+  const [menuItems, setMenuItems] = React.useState<MenuItem[]>(baseMenuItems);
+  const [loading, setLoading] = React.useState(true);
 
-  // Fetch industries, services, and products from the API
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch industries
-        const industriesResponse = await fetch("/api/industries")
-        let industries = []
+        const industriesResponse = await fetch("/api/industries");
+        let industries = [];
         if (industriesResponse.ok) {
-          industries = await industriesResponse.json()
+          industries = await industriesResponse.json();
         }
 
         // Fetch services
-        const servicesResponse = await fetch("/api/services")
-        let services = []
+        const servicesResponse = await fetch("/api/services");
+        let services = [];
         if (servicesResponse.ok) {
-          services = await servicesResponse.json()
+          services = await servicesResponse.json();
         }
 
         // Fetch equipment categories
-        const equipmentResponse = await fetch("/api/products?type=equipment")
-        let equipmentCategories = []
+        const equipmentResponse = await fetch("/api/products?type=equipment");
+        let equipmentCategories = [];
         if (equipmentResponse.ok) {
-          equipmentCategories = await equipmentResponse.json()
+          equipmentCategories = await equipmentResponse.json();
         }
 
         // Fetch consumables categories
-        const consumablesResponse = await fetch("/api/products?type=consumables")
-        let consumablesCategories = []
+        const consumablesResponse = await fetch(
+          "/api/products?type=consumables"
+        );
+        let consumablesCategories = [];
         if (consumablesResponse.ok) {
-          consumablesCategories = await consumablesResponse.json()
+          consumablesCategories = await consumablesResponse.json();
         }
 
         // Create the industries menu item
-        const industriesMenuItem = {
+        const industriesMenuItem: MenuItem = {
           title: "Industries",
           items: industries.map((industry: any) => ({
             title: industry.title,
             href: `/industries/${industry.slug}`,
             description: industry.shortDescription,
           })),
-        }
+        };
 
         // Create the services menu item
-        const servicesMenuItem = {
+        const servicesMenuItem: MenuItem = {
           title: "Solutions & Services",
           items: services.map((service: any) => ({
             title: service.title,
             href: `/solutions/${service.slug}`,
             description: service.description,
           })),
-        }
+        };
 
         // Create the products menu item
-        const productsMenuItem = {
+        const productsMenuItem: MenuItem = {
           title: "Products",
           items: [
             {
@@ -127,33 +149,33 @@ export function Navbar() {
               // })),
             },
           ],
-        }
+        };
 
         // Insert the menu items
-        const updatedMenuItems = [...baseMenuItems]
-        updatedMenuItems.splice(2, 0, industriesMenuItem) // Insert industries after Company
-        updatedMenuItems.splice(3, 0, servicesMenuItem) // Insert services after Industries
-        updatedMenuItems.splice(4, 0, productsMenuItem) // Insert products after Services
+        const updatedMenuItems = [...baseMenuItems];
+        updatedMenuItems.splice(2, 0, industriesMenuItem); // Insert industries after Company
+        updatedMenuItems.splice(3, 0, servicesMenuItem); // Insert services after Industries
+        updatedMenuItems.splice(4, 0, productsMenuItem); // Insert products after Services
 
-        setMenuItems(updatedMenuItems)
+        setMenuItems(updatedMenuItems);
       } catch (error) {
-        console.error("Error fetching menu data:", error)
+        console.error("Error fetching menu data:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsScrolled(latest > 50)
-  })
+    setIsScrolled(latest > 50);
+  });
 
   const handleMobileItemClick = () => {
-    setIsOpen(false)
-    setActiveDropdown(null)
-  }
+    setIsOpen(false);
+    setActiveDropdown(null);
+  };
 
   return (
     <motion.header
@@ -162,7 +184,7 @@ export function Navbar() {
       transition={{ duration: 0.3 }}
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300 py-3",
-        isScrolled ? "bg-white shadow-md" : "bg-white",
+        isScrolled ? "bg-white shadow-md" : "bg-white"
       )}
     >
       <div className="2xl:max-w-[1440px] mx-auto px-4 md:py-4">
@@ -194,7 +216,7 @@ export function Navbar() {
                       <ChevronDown
                         className={cn(
                           "ml-1 h-4 w-4 transition-transform duration-200",
-                          activeDropdown === item.title && "rotate-180",
+                          activeDropdown === item.title && "rotate-180"
                         )}
                       />
                     </button>
@@ -206,7 +228,9 @@ export function Navbar() {
 
                           {/* Dropdown header */}
                           <div className="px-4 py-3 bg-gold rounded-t-lg">
-                            <h3 className="text-white text-[18px] font-medium font-poppins">{item.title}</h3>
+                            <h3 className="text-white text-[18px] font-medium font-poppins">
+                              {item.title}
+                            </h3>
                           </div>
 
                           {/* Dropdown items */}
@@ -223,29 +247,34 @@ export function Navbar() {
                                     </span>
                                     <ArrowRight className="h-4 w-4 text-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
                                   </div>
-                                  <span className="text-sm text-gray-500 mt-0.5">{subItem.description}</span>
+                                  <span className="text-sm text-gray-500 mt-0.5">
+                                    {subItem.description}
+                                  </span>
                                 </Link>
 
                                 {/* Sub-items for Products */}
-                                {subItem.subItems && activeDropdown === "Products" && (
-                                  <div className="ml-4 mt-2 border-l-2 border-blue-100 pl-2">
-                                    {subItem.subItems.map((subSubItem: any) => (
-                                      <Link
-                                        key={subSubItem.title}
-                                        href={subSubItem.href}
-                                        className="group flex flex-col p-2 rounded-md hover:bg-blue-50 transition-all duration-200"
-                                      >
-                                        <div className="flex items-center justify-between">
-                                          <span className="font-medium text-sm text-blue-dark group-hover:text-gold transition-colors">
-                                            {subSubItem.title}
+                                {subItem.subItems &&
+                                  activeDropdown === "Products" && (
+                                    <div className="ml-4 mt-2 border-l-2 border-blue-100 pl-2">
+                                      {subItem.subItems.map((subSubItem) => (
+                                        <Link
+                                          key={subSubItem.title}
+                                          href={subSubItem.href}
+                                          className="group flex flex-col p-2 rounded-md hover:bg-blue-50 transition-all duration-200"
+                                        >
+                                          <div className="flex items-center justify-between">
+                                            <span className="font-medium text-sm text-blue-dark group-hover:text-gold transition-colors">
+                                              {subSubItem.title}
+                                            </span>
+                                            <ArrowRight className="h-3 w-3 text-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                          </div>
+                                          <span className="text-xs text-gray-500 mt-0.5">
+                                            {subSubItem.description}
                                           </span>
-                                          <ArrowRight className="h-3 w-3 text-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                                        </div>
-                                        <span className="text-xs text-gray-500 mt-0.5">{subSubItem.description}</span>
-                                      </Link>
-                                    ))}
-                                  </div>
-                                )}
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  )}
                               </div>
                             ))}
                           </div>
@@ -296,14 +325,18 @@ export function Navbar() {
                     ) : (
                       <div
                         className="relative"
-                        onClick={() => setActiveDropdown(activeDropdown === item.title ? null : item.title)}
+                        onClick={() =>
+                          setActiveDropdown(
+                            activeDropdown === item.title ? null : item.title
+                          )
+                        }
                       >
                         <button className="flex items-center justify-between w-full text-[18px] font-medium font-poppins px-4 py-2 text-blue-dark hover:text-gold transition-colors">
                           {item.title}
                           <ChevronDown
                             className={cn(
                               "h-4 w-4 transition-transform duration-200",
-                              activeDropdown === item.title && "rotate-180",
+                              activeDropdown === item.title && "rotate-180"
                             )}
                           />
                         </button>
@@ -322,30 +355,35 @@ export function Navbar() {
                                     </span>
                                     <ArrowRight className="h-4 w-4 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
                                   </div>
-                                  <span className="text-sm text-gray-500 mt-0.5">{subItem.description}</span>
+                                  <span className="text-sm text-gray-500 mt-0.5">
+                                    {subItem.description}
+                                  </span>
                                 </Link>
 
                                 {/* Sub-items for Products */}
-                                {subItem.subItems && activeDropdown === "Products" && (
-                                  <div className="ml-4 mt-2 border-l-2 border-gray-200 pl-2">
-                                    {subItem.subItems.map((subSubItem: any) => (
-                                      <Link
-                                        key={subSubItem.title}
-                                        href={subSubItem.href}
-                                        onClick={handleMobileItemClick}
-                                        className="flex flex-col p-2 hover:bg-gray-100 transition-colors rounded-md group"
-                                      >
-                                        <div className="flex items-center justify-between">
-                                          <span className="font-medium text-sm text-blue-dark group-hover:text-gold">
-                                            {subSubItem.title}
+                                {subItem.subItems &&
+                                  activeDropdown === "Products" && (
+                                    <div className="ml-4 mt-2 border-l-2 border-gray-200 pl-2">
+                                      {subItem.subItems.map((subSubItem) => (
+                                        <Link
+                                          key={subSubItem.title}
+                                          href={subSubItem.href}
+                                          onClick={handleMobileItemClick}
+                                          className="flex flex-col p-2 hover:bg-gray-100 transition-colors rounded-md group"
+                                        >
+                                          <div className="flex items-center justify-between">
+                                            <span className="font-medium text-sm text-blue-dark group-hover:text-gold">
+                                              {subSubItem.title}
+                                            </span>
+                                            <ArrowRight className="h-3 w-3 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                          </div>
+                                          <span className="text-xs text-gray-500 mt-0.5">
+                                            {subSubItem.description}
                                           </span>
-                                          <ArrowRight className="h-3 w-3 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                                        </div>
-                                        <span className="text-xs text-gray-500 mt-0.5">{subSubItem.description}</span>
-                                      </Link>
-                                    ))}
-                                  </div>
-                                )}
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  )}
                               </div>
                             ))}
                           </div>
@@ -369,6 +407,5 @@ export function Navbar() {
         </div>
       </div>
     </motion.header>
-  )
+  );
 }
-

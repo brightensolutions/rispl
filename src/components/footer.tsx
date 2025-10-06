@@ -225,7 +225,11 @@ export function Footer() {
                     className="text-gray-300 hover:text-gold flex items-start gap-3 group"
                   >
                     <MapPin className="w-5 h-5 mt-1 group-hover:text-gold transition-colors" />
-                    <span></span>
+                    <span>
+                      704, 7th Floor, Tower B, D Wing, Swastik Universal
+                      Building, Near Valentine Cinema, Piplod, SUrat, Gujarat
+                      395007, India
+                    </span>
                   </a>
                 </li>
               </ul>

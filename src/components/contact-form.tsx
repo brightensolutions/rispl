@@ -1,24 +1,35 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { motion } from "framer-motion"
-import { Mail, Phone, Globe, MapPin, Send, Loader2, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
-import { useState } from "react"
-import { toast } from "sonner"
+import type React from "react";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  Phone,
+  Globe,
+  MapPin,
+  Send,
+  Loader2,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+} from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export function ContactForm() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     subject: "",
     message: "",
-  })
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
       // Submit to our API to store in database
@@ -28,15 +39,15 @@ export function ContactForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (!result.success) {
-        throw new Error(result.message || "Failed to submit form")
+        throw new Error(result.message || "Failed to submit form");
       }
 
-      toast.success("Thank you for your message! We'll get back to you soon.")
+      toast.success("Thank you for your message! We'll get back to you soon.");
 
       // Reset form after successful submission
       setFormData({
@@ -45,23 +56,36 @@ export function ContactForm() {
         email: "",
         subject: "",
         message: "",
-      })
+      });
     } catch (error) {
-      console.error("Form submission error:", error)
-      toast.error("Something went wrong. Please try again.")
+      console.error("Form submission error:", error);
+      toast.error("Something went wrong. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   // Rest of the component code remains exactly the same...
   return (
     <section className="relative py-24 bg-gradient-to-br from-white to-gray-50">
       {/* All existing JSX remains exactly the same... */}
       <div className="absolute inset-0 pointer-events-none">
-        <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
-          <pattern id="pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M0 40V20L20 40H0zm0-40h20L0 20V0zm40 40V20L20 40h20zm0-40H20L40 20V0z" fill="currentColor" />
+        <svg
+          className="absolute inset-0 w-full h-full opacity-[0.03]"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <pattern
+            id="pattern"
+            x="0"
+            y="0"
+            width="40"
+            height="40"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M0 40V20L20 40H0zm0-40h20L0 20V0zm40 40V20L20 40h20zm0-40H20L40 20V0z"
+              fill="currentColor"
+            />
           </pattern>
           <rect width="100%" height="100%" fill="url(#pattern)" />
         </svg>
@@ -77,7 +101,9 @@ export function ContactForm() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-nunito font-bold text-blue mb-4">Reach Out</h2>
+            <h2 className="text-4xl md:text-5xl font-nunito font-bold text-blue mb-4">
+              Reach Out
+            </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-gold via-gold-light to-gold mx-auto" />
           </motion.div>
 
@@ -86,7 +112,9 @@ export function ContactForm() {
             {/* Contact Information */}
             <div>
               <div className="h-[730px] bg-white rounded-3xl p-8 shadow-lg">
-                <h3 className="text-3xl font-nunito font-bold text-blue mb-8">Contact Information</h3>
+                <h3 className="text-3xl font-nunito font-bold text-blue mb-8">
+                  Contact Information
+                </h3>
 
                 <div className="space-y-6">
                   {[
@@ -111,7 +139,8 @@ export function ContactForm() {
                     {
                       icon: MapPin,
                       title: "Registered Office ",
-                      value: "PLOT 47-50, BHATPORE GIDC, NR. GAIL COLONY, BHATPORE, SURAT-394510.",
+                      value:
+                        " 704, 7th Floor, Tower B, D Wing, Swastik Universal Building, Near Valentine Cinema, Piplod, SUrat, Gujarat 395007, India",
                       href: "https://maps.google.com",
                     },
                   ].map((item, index) => (
@@ -133,7 +162,9 @@ export function ContactForm() {
                         </div>
                       </div>
                       <div>
-                        <div className="text-sm text-gray-500 font-medium mb-1">{item.title}</div>
+                        <div className="text-sm text-gray-500 font-medium mb-1">
+                          {item.title}
+                        </div>
                         <div className="text-blue font-medium group-hover:text-gold transition-colors">
                           {item.value}
                         </div>
@@ -144,26 +175,31 @@ export function ContactForm() {
 
                 {/* Social Links */}
                 <div className="mt-12">
-                  <div className="text-sm text-gray-500 font-medium mb-4">Follow Us</div>
+                  <div className="text-sm text-gray-500 font-medium mb-4">
+                    Follow Us
+                  </div>
                   <div className="flex gap-4">
-                    {[{ icon: Facebook }, { icon: Twitter }, { icon: Linkedin }, { icon: Instagram }].map(
-                      ({ icon: Icon }, index) => (
-                        <motion.a
-                          key={index}
-                          href="#"
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.3, delay: index * 0.1 }}
-                          className="group relative"
-                        >
-                          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gold via-[#ecdc77] to-[#EDC967] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                          <div className="relative w-12 h-12 rounded-xl bg-gradient-gold flex items-center justify-center shadow-lg transform transition-all duration-300 group-hover:translate-y-[-4px] group-hover:rotate-6">
-                            <Icon className="w-5 h-5 text-black group-hover:text-zinc-900 transition-colors" />
-                          </div>
-                        </motion.a>
-                      ),
-                    )}
+                    {[
+                      { icon: Facebook },
+                      { icon: Twitter },
+                      { icon: Linkedin },
+                      { icon: Instagram },
+                    ].map(({ icon: Icon }, index) => (
+                      <motion.a
+                        key={index}
+                        href="#"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                        className="group relative"
+                      >
+                        <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gold via-[#ecdc77] to-[#EDC967] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="relative w-12 h-12 rounded-xl bg-gradient-gold flex items-center justify-center shadow-lg transform transition-all duration-300 group-hover:translate-y-[-4px] group-hover:rotate-6">
+                          <Icon className="w-5 h-5 text-black group-hover:text-zinc-900 transition-colors" />
+                        </div>
+                      </motion.a>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -176,56 +212,82 @@ export function ContactForm() {
                   <div className="flex-grow space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          First Name
+                        </label>
                         <input
                           type="text"
                           required
                           value={formData.firstName}
-                          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              firstName: e.target.value,
+                            })
+                          }
                           className="w-full px-4 py-3 outline-none text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Last Name
+                        </label>
                         <input
                           type="text"
                           required
                           value={formData.lastName}
-                          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              lastName: e.target.value,
+                            })
+                          }
                           className="w-full px-4 py-3 outline-none text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Email Address
+                      </label>
                       <input
                         type="email"
                         required
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
                         className="w-full px-4 py-3 outline-none text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Subject
+                      </label>
                       <input
                         type="text"
                         required
                         value={formData.subject}
-                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, subject: e.target.value })
+                        }
                         className="w-full px-4 py-3 outline-none text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors"
                         placeholder="How can we help you?"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Message
+                      </label>
                       <textarea
                         required
                         value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, message: e.target.value })
+                        }
                         rows={3}
                         className="w-full outline-none px-4 py-3 text-black rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-colors resize-none"
                         placeholder="Your message..."
@@ -262,6 +324,5 @@ export function ContactForm() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

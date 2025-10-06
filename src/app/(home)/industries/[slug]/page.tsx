@@ -4,15 +4,19 @@ import connectDb from "@/lib/db/db";
 import IndustryModel from "@/lib/Models/industry";
 import { notFound } from "next/navigation";
 
+// Helper to escape regex special characters
 function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-export default async function IndustryPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+// Type for Next.js App Router page props
+interface IndustryPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default async function IndustryPage({ params }: IndustryPageProps) {
   await connectDb();
 
   const decodedSlug = decodeURIComponent(params.slug);
@@ -24,7 +28,7 @@ export default async function IndustryPage({
       isActive: true,
     });
 
-    // If not found, try a case-insensitive search (use escaped slug for safety)
+    // If not found, try a case-insensitive search
     if (!industry) {
       industry = await IndustryModel.findOne({
         slug: { $regex: new RegExp(`^${escapeRegex(decodedSlug)}$`, "i") },
@@ -32,7 +36,7 @@ export default async function IndustryPage({
       });
     }
 
-    // If still not found, try to find by title (for backward compatibility)
+    // If still not found, try to find by title
     if (!industry) {
       industry = await IndustryModel.findOne({
         title: decodedSlug,
@@ -46,7 +50,7 @@ export default async function IndustryPage({
       notFound();
     }
 
-    // Convert Mongoose document to plain object to avoid hydration issues
+    // Convert Mongoose document to plain object
     const industryData = JSON.parse(
       JSON.stringify(industry.toObject ? industry.toObject() : industry)
     );

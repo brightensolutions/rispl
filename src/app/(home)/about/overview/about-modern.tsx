@@ -118,6 +118,11 @@ export default function AboutModern({ content }: AboutModernProps) {
   // Use provided content or fall back to default content
   const displayContent = content || defaultContent;
 
+  console.log(
+    "AboutModern content being used:",
+    displayContent.sections[0].content
+  );
+
   // Get icon component from icon name
   const getIconComponent = (iconName: string) => {
     return iconMap[iconName as keyof typeof iconMap] || Building2;

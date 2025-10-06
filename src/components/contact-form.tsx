@@ -140,7 +140,7 @@ export function ContactForm() {
                       icon: MapPin,
                       title: "Registered Office ",
                       value:
-                        " 704, 7th Floor, Tower B, D Wing, Swastik Universal Building, Near Valentine Cinema, Piplod, SUrat, Gujarat 395007, India",
+                        " 704, 7th Floor, Tower B, D Wing, Swastik Universal Building, Near Valentine Cinema, Piplod, Surat, Gujarat 395007, India",
                       href: "https://maps.google.com",
                     },
                   ].map((item, index) => (

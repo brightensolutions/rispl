@@ -217,7 +217,7 @@ export function Footer() {
                     className="text-gray-300 hover:text-gold flex items-start gap-3 group"
                   >
                     <Phone className="w-5 h-5 mt-1 group-hover:text-gold transition-colors" />
-                    <span>+91 9818879945</span>
+                    <span>+91 8758706226, +91 9818879945</span>
                   </a>
                 </li>
                 <li>

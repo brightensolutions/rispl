@@ -127,7 +127,7 @@ export function ContactForm() {
                     {
                       icon: Phone,
                       title: "Phone",
-                      value: "+91 9818879945",
+                      value: "+91 8758706226, +91 9818879945",
                       href: "tel:+919818879945",
                     },
                     {

@@ -91,7 +91,7 @@ export function Navbar() {
           items: [
             {
               title: "Operational Management",
-              href: "/solutions/operational-management",
+              href: "#",
               description: "Enterprise management solutions",
               subItems: [
                 {
@@ -113,7 +113,7 @@ export function Navbar() {
             },
             {
               title: "Packaging & Automation",
-              href: "/solutions/packaging-automation",
+              href: "#",
               description: "Packaging and automation services",
               subItems: [
                 // Add current services as sub-items

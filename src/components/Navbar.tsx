@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { ChevronDown, Menu, ArrowRight } from "lucide-react";
+import { ChevronDown, Menu, ArrowRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -28,37 +28,14 @@ interface MenuItem {
   items?: SubMenuItem[];
 }
 
-// Define the base menu items without industries, services, and products
-const baseMenuItems: MenuItem[] = [
-  { title: "Home", href: "/" },
-  {
-    title: "Company",
-    items: [
-      {
-        title: "About Us",
-        href: "/about/overview",
-        description: "Learn about our vision and values",
-      },
-      {
-        title: "Our Core Team",
-        href: "/about/team",
-        description: "Meet our expert team members",
-      },
-      {
-        title: "Why Choose Us",
-        href: "/about/why-us",
-        description: "Discover what sets us apart",
-      },
-      {
-        title: "Our Values",
-        href: "/about/our-values",
-        description: "Explore our guiding principles",
-      },
-    ],
-  },
-  // Industries will be added dynamically
-  // Solutions & Services will be added dynamically
-  // Products will be added dynamically
+// Define the base menu items
+const baseMenuItems: MenuItem[] = [{ title: "Home", href: "/" }];
+
+const languages = [
+  { code: "en", name: "English" },
+  { code: "es", name: "Español" },
+  { code: "fr", name: "Français" },
+  { code: "de", name: "Deutsch" },
 ];
 
 export function Navbar() {
@@ -67,6 +44,8 @@ export function Navbar() {
     null
   );
   const [isOpen, setIsOpen] = React.useState(false);
+  const [currentLanguage, setCurrentLanguage] = React.useState("en");
+  const [languageDropdownOpen, setLanguageDropdownOpen] = React.useState(false);
   const { scrollY } = useScroll();
   const [menuItems, setMenuItems] = React.useState<MenuItem[]>(baseMenuItems);
   const [loading, setLoading] = React.useState(true);
@@ -104,24 +83,54 @@ export function Navbar() {
           consumablesCategories = await consumablesResponse.json();
         }
 
-        // Create the industries menu item
-        const industriesMenuItem: MenuItem = {
-          title: "Industries",
-          items: industries.map((industry: any) => ({
-            title: industry.title,
-            href: `/industries/${industry.slug}`,
-            description: industry.shortDescription,
-          })),
-        };
+        // reorganized Solutions & Services into Operational Management and Packaging & Automation
 
-        // Create the services menu item
-        const servicesMenuItem: MenuItem = {
+        // Create the Solutions & Services menu item with two main categories
+        const solutionsMenuItem: MenuItem = {
           title: "Solutions & Services",
-          items: services.map((service: any) => ({
-            title: service.title,
-            href: `/solutions/${service.slug}`,
-            description: service.description,
-          })),
+          items: [
+            {
+              title: "Operational Management",
+              href: "/solutions/operational-management",
+              description: "Enterprise management solutions",
+              subItems: [
+                {
+                  title: "Yohan Enterprise",
+                  href: "/solutions/operational-management/yohan",
+                  description: "Yohan Enterprise solution",
+                },
+                {
+                  title: "Atash Enterprise",
+                  href: "/solutions/operational-management/atash",
+                  description: "Atash Enterprise solution",
+                },
+                {
+                  title: "Egale Instrumentation",
+                  href: "/solutions/operational-management/egale",
+                  description: "Egale Instrumentation solution",
+                },
+              ],
+            },
+            {
+              title: "Packaging & Automation",
+              href: "/solutions/packaging-automation",
+              description: "Packaging and automation services",
+              subItems: [
+                // Add current services as sub-items
+                ...services.map((service: any) => ({
+                  title: service.title,
+                  href: `/solutions/${service.slug}`,
+                  description: service.description,
+                })),
+                // Add Industries as a sub-item
+                ...industries.map((industry: any) => ({
+                  title: industry.title,
+                  href: `/industries/${industry.slug}`,
+                  description: industry.shortDescription,
+                })),
+              ],
+            },
+          ],
         };
 
         // Create the products menu item
@@ -132,30 +141,19 @@ export function Navbar() {
               title: "Equipment",
               href: "/Products/equipment",
               description: "High-quality packaging equipment",
-              // subItems: equipmentCategories.map((category: any) => ({
-              //   title: category.title,
-              //   href: `/Products/equipment/${category.id}`,
-              //   description: category.description,
-              // })),
             },
             {
               title: "Consumables",
               href: "/Products/consumables",
               description: "Essential packaging materials",
-              // subItems: consumablesCategories.map((category: any) => ({
-              //   title: category.title,
-              //   href: `/Products/consumables/${category.id}`,
-              //   description: category.description,
-              // })),
             },
           ],
         };
 
         // Insert the menu items
         const updatedMenuItems = [...baseMenuItems];
-        updatedMenuItems.splice(2, 0, industriesMenuItem); // Insert industries after Company
-        updatedMenuItems.splice(3, 0, servicesMenuItem); // Insert services after Industries
-        updatedMenuItems.splice(4, 0, productsMenuItem); // Insert products after Services
+        updatedMenuItems.push(solutionsMenuItem);
+        updatedMenuItems.push(productsMenuItem);
 
         setMenuItems(updatedMenuItems);
       } catch (error) {
@@ -175,6 +173,11 @@ export function Navbar() {
   const handleMobileItemClick = () => {
     setIsOpen(false);
     setActiveDropdown(null);
+  };
+
+  const handleLanguageChange = (code: string) => {
+    setCurrentLanguage(code);
+    setLanguageDropdownOpen(false);
   };
 
   return (
@@ -252,29 +255,28 @@ export function Navbar() {
                                   </span>
                                 </Link>
 
-                                {/* Sub-items for Products */}
-                                {subItem.subItems &&
-                                  activeDropdown === "Products" && (
-                                    <div className="ml-4 mt-2 border-l-2 border-blue-100 pl-2">
-                                      {subItem.subItems.map((subSubItem) => (
-                                        <Link
-                                          key={subSubItem.title}
-                                          href={subSubItem.href}
-                                          className="group flex flex-col p-2 rounded-md hover:bg-blue-50 transition-all duration-200"
-                                        >
-                                          <div className="flex items-center justify-between">
-                                            <span className="font-medium text-sm text-blue-dark group-hover:text-gold transition-colors">
-                                              {subSubItem.title}
-                                            </span>
-                                            <ArrowRight className="h-3 w-3 text-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                                          </div>
-                                          <span className="text-xs text-gray-500 mt-0.5">
-                                            {subSubItem.description}
+                                {/* Sub-items for categories with children */}
+                                {subItem.subItems && (
+                                  <div className="ml-4 mt-2 border-l-2 border-blue-100 pl-2">
+                                    {subItem.subItems.map((subSubItem) => (
+                                      <Link
+                                        key={subSubItem.title}
+                                        href={subSubItem.href}
+                                        className="group flex flex-col p-2 rounded-md hover:bg-blue-50 transition-all duration-200"
+                                      >
+                                        <div className="flex items-center justify-between">
+                                          <span className="font-medium text-sm text-blue-dark group-hover:text-gold transition-colors">
+                                            {subSubItem.title}
                                           </span>
-                                        </Link>
-                                      ))}
-                                    </div>
-                                  )}
+                                          <ArrowRight className="h-3 w-3 text-gold opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                        </div>
+                                        <span className="text-xs text-gray-500 mt-0.5">
+                                          {subSubItem.description}
+                                        </span>
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             ))}
                           </div>
@@ -301,6 +303,43 @@ export function Navbar() {
             >
               Contact
             </Link>
+
+            <div className="relative ml-4">
+              <button
+                onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
+                onMouseEnter={() => setLanguageDropdownOpen(true)}
+                onMouseLeave={() => setLanguageDropdownOpen(false)}
+                className="flex items-center gap-2 px-4 py-2 text-[18px] font-medium font-poppins text-blue-dark hover:text-gold transition-colors"
+              >
+                <Globe className="h-5 w-5" />
+                {currentLanguage.toUpperCase()}
+                <ChevronDown
+                  className={cn(
+                    "h-4 w-4 transition-transform duration-200",
+                    languageDropdownOpen && "rotate-180"
+                  )}
+                />
+              </button>
+
+              {languageDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-lg z-50">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageChange(lang.code)}
+                      className={cn(
+                        "w-full text-left px-4 py-2 font-poppins text-[16px] transition-colors",
+                        currentLanguage === lang.code
+                          ? "bg-gold text-white"
+                          : "text-blue-dark hover:bg-blue-50"
+                      )}
+                    >
+                      {lang.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Mobile Menu */}
@@ -311,7 +350,7 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] pt-5 bg-white">
-              <div className="flex flex-col py-2 overflow-y-auto max-h-[calc(100vh-100px)]">
+              <div className="flex flex-col py-2 overflow-y-auto max-h-[calc(100vh-200px)]">
                 {menuItems.map((item) => (
                   <div key={item.title} className="flex flex-col">
                     {!item.items ? (
@@ -360,30 +399,29 @@ export function Navbar() {
                                   </span>
                                 </Link>
 
-                                {/* Sub-items for Products */}
-                                {subItem.subItems &&
-                                  activeDropdown === "Products" && (
-                                    <div className="ml-4 mt-2 border-l-2 border-gray-200 pl-2">
-                                      {subItem.subItems.map((subSubItem) => (
-                                        <Link
-                                          key={subSubItem.title}
-                                          href={subSubItem.href}
-                                          onClick={handleMobileItemClick}
-                                          className="flex flex-col p-2 hover:bg-gray-100 transition-colors rounded-md group"
-                                        >
-                                          <div className="flex items-center justify-between">
-                                            <span className="font-medium text-sm text-blue-dark group-hover:text-gold">
-                                              {subSubItem.title}
-                                            </span>
-                                            <ArrowRight className="h-3 w-3 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                                          </div>
-                                          <span className="text-xs text-gray-500 mt-0.5">
-                                            {subSubItem.description}
+                                {/* Sub-items for mobile */}
+                                {subItem.subItems && (
+                                  <div className="ml-4 mt-2 border-l-2 border-gray-200 pl-2">
+                                    {subItem.subItems.map((subSubItem) => (
+                                      <Link
+                                        key={subSubItem.title}
+                                        href={subSubItem.href}
+                                        onClick={handleMobileItemClick}
+                                        className="flex flex-col p-2 hover:bg-gray-100 transition-colors rounded-md group"
+                                      >
+                                        <div className="flex items-center justify-between">
+                                          <span className="font-medium text-sm text-blue-dark group-hover:text-gold">
+                                            {subSubItem.title}
                                           </span>
-                                        </Link>
-                                      ))}
-                                    </div>
-                                  )}
+                                          <ArrowRight className="h-3 w-3 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                                        </div>
+                                        <span className="text-xs text-gray-500 mt-0.5">
+                                          {subSubItem.description}
+                                        </span>
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             ))}
                           </div>
@@ -392,8 +430,31 @@ export function Navbar() {
                     )}
                   </div>
                 ))}
+
+                <div className="border-t border-gray-200 mt-4 pt-4">
+                  <div className="px-4 py-2 text-[16px] font-medium font-poppins text-blue-dark">
+                    Language
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => handleLanguageChange(lang.code)}
+                        className={cn(
+                          "w-full text-left px-4 py-2 font-poppins text-[16px] rounded transition-colors",
+                          currentLanguage === lang.code
+                            ? "bg-gold text-white"
+                            : "text-blue-dark hover:bg-blue-50"
+                        )}
+                      >
+                        {lang.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <div className="p-4 mt-auto">
+
+              <div className="p-4 mt-auto border-t">
                 <Link
                   href="/contact"
                   onClick={handleMobileItemClick}

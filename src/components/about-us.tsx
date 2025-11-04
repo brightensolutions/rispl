@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Clock, Award, Users } from "lucide-react"
-import Image from "next/image"
+import { motion } from "framer-motion";
+import { Clock, Award, Users } from "lucide-react";
+import Image from "next/image";
 
 export function AboutUs() {
   return (
@@ -18,7 +18,9 @@ export function AboutUs() {
             >
               {/* Section Title */}
               <div className="inline-block">
-                <h2 className="font-nunito text-blue text-4xl font-bold mb-2">About Us</h2>
+                <h2 className="font-nunito text-blue text-4xl font-bold mb-2">
+                  About Us
+                </h2>
                 <motion.div
                   className="h-1 bg-gold"
                   initial={{ width: 0 }}
@@ -36,10 +38,13 @@ export function AboutUs() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-6 text-gray-700 font-roboto text-lg leading-relaxed"
               >
-                We at RISPL are a group of technocrats with a wealth of experience and expertise in offering Customized
-                Packaging solutions including Developing, Designing and Supplying products, and after sale services. We
-                are also engaged in design, supply of high quality turnkey automation projects, with Modular Flexible
-                Conveyors Solutions, Process equipments for various industry segments like Food, Pharmaceuticals, FMCG,
+                We at RISPL are a group of technocrats with a wealth of
+                experience and expertise in offering Customized Packaging
+                solutions including Developing, Designing and Supplying
+                products, and after sale services. We are also engaged in
+                design, supply of high quality turnkey automation projects, with
+                Modular Flexible Conveyors Solutions, Process equipments for
+                various industry segments like Food, Pharmaceuticals, FMCG,
                 Beverages, Automobile and Engineering industries.
               </motion.p>
 
@@ -75,8 +80,12 @@ export function AboutUs() {
                         <feature.icon className="w-12 h-12 text-blue" />
                       </div>
                       <div>
-                        <h3 className="font-poppins text-blue text-xl font-semibold mb-1">{feature.title}</h3>
-                        <p className="font-roboto text-blue/90">{feature.description}</p>
+                        <h3 className="font-poppins text-blue text-xl font-semibold mb-1">
+                          {feature.title}
+                        </h3>
+                        <p className="font-roboto text-blue/90">
+                          {feature.description}
+                        </p>
                       </div>
                       {/* Black bottom border on hover */}
                       {/* <div className="absolute bottom-0 left-0 w-full h-1 bg-black transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" /> */}
@@ -99,7 +108,7 @@ export function AboutUs() {
             >
               <div className="absolute inset-0 bg-gradient-to-t from-blue/50 to-transparent z-10" />
               <Image
-                src="/images/about-us.jpg"
+                src="/images/manpower.jpg"
                 alt="Manufacturing Facility"
                 fill
                 className="object-cover"
@@ -114,8 +123,12 @@ export function AboutUs() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="absolute top-8 left-8 z-20 bg-white p-6 rounded-[5px] shadow-xl"
             >
-              <div className="font-nunito text-4xl font-bold text-blue">500+</div>
-              <div className="font-poppins text-sm text-gray-600">Projects Completed</div>
+              <div className="font-nunito text-4xl font-bold text-blue">
+                500+
+              </div>
+              <div className="font-poppins text-sm text-gray-600">
+                Projects Completed
+              </div>
             </motion.div>
 
             {/* Bottom Right Stat */}
@@ -126,13 +139,16 @@ export function AboutUs() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="absolute bottom-8 right-8 z-20 bg-white p-6 rounded-[5px] shadow-xl"
             >
-              <div className="font-nunito text-4xl font-bold text-blue">98%</div>
-              <div className="font-poppins text-sm text-gray-600">Client Satisfaction</div>
+              <div className="font-nunito text-4xl font-bold text-blue">
+                98%
+              </div>
+              <div className="font-poppins text-sm text-gray-600">
+                Client Satisfaction
+              </div>
             </motion.div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
-

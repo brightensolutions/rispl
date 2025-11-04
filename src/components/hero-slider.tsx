@@ -1,119 +1,82 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { cn } from "@/lib/utils"
-
-// Default slides as a fallback
-const defaultSlides = [
-  {
-    _id: "1",
-    title: "Customized Packaging Solutions",
-    description:
-      "We at RISPL are a group of technocrats with a wealth of experience and expertise in offering Customized Packaging solutions including Developing, Designing and Supplying products, and after sale services.",
-    image: "/images/slider/slider2.jpg",
-    highlight: "Expertise in Custom Solutions",
-    order: 0,
-    active: true,
-  },
-  {
-    _id: "2",
-    title: "Turnkey Automation Projects",
-    description:
-      "We are engaged in design and supply of high quality turnkey automation projects, with Modular Flexible Conveyors Solutions for various industry segments.",
-    image: "/images/slider/slider1.jpg",
-    highlight: "Advanced Automation",
-    order: 1,
-    active: true,
-  },
-  {
-    _id: "3",
-    title: "Industry-Wide Solutions",
-    description:
-      "Serving multiple sectors including Food, Pharmaceuticals, FMCG, Beverages, Automobile and Engineering industries with process equipment and automation solutions.",
-    image: "/images/slider/slider3.jpg",
-    highlight: "Multi-Industry Expertise",
-    order: 2,
-    active: true,
-  },
-]
+import * as React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Slide {
-  _id: string
-  title: string
-  description: string
-  highlight: string
-  image: string
-  order: number
-  active: boolean
+  _id: string;
+  title: string;
+  description: string;
+  highlight: string;
+  image: string;
+  order: number;
+  active: boolean;
 }
 
 export function HeroSlider() {
-  const [slides, setSlides] = React.useState<Slide[]>([])
-  const [loading, setLoading] = React.useState(true)
-  const [currentSlide, setCurrentSlide] = React.useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = React.useState(true)
-  const autoPlayRef = React.useRef<NodeJS.Timeout | undefined>(undefined)
-  const [mounted, setMounted] = React.useState(false)
+  const [slides, setSlides] = React.useState<Slide[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = React.useState(true);
+  const [slideDirection, setSlideDirection] = React.useState(1);
+  const autoPlayRef = React.useRef<NodeJS.Timeout | undefined>(undefined);
+  const [mounted, setMounted] = React.useState(false);
 
-  // Set mounted state to true when component mounts
   React.useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  // Fetch slides from API
   React.useEffect(() => {
     const fetchSlides = async () => {
       try {
-        const res = await fetch("/api/sliders")
-        const data = await res.json()
+        const res = await fetch("/api/sliders");
+        const data = await res.json();
 
         if (data.success && data.data.length > 0) {
-          setSlides(data.data)
+          setSlides(data.data);
         } else {
-          // Fallback to default slides if none found in the database
-          setSlides(defaultSlides)
+          setSlides([]);
         }
       } catch (error) {
-        console.error("Error fetching slides:", error)
-        // Use default slides on error
-        setSlides(defaultSlides)
+        console.error("Error fetching slides:", error);
+        setSlides([]);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchSlides()
-  }, [])
+    fetchSlides();
+  }, []);
 
   const nextSlide = React.useCallback(() => {
-    if (slides.length === 0) return
-    setCurrentSlide((prev) => (prev + 1) % slides.length)
-  }, [slides.length])
+    if (slides.length === 0) return;
+    setSlideDirection(1);
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  }, [slides.length]);
 
   const prevSlide = () => {
-    if (slides.length === 0) return
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
-  }
+    if (slides.length === 0) return;
+    setSlideDirection(-1);
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
 
   React.useEffect(() => {
     if (isAutoPlaying && slides.length > 0) {
-      autoPlayRef.current = setInterval(nextSlide, 5000)
+      autoPlayRef.current = setInterval(nextSlide, 5000);
     }
     return () => {
       if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current)
+        clearInterval(autoPlayRef.current);
       }
-    }
-  }, [isAutoPlaying, nextSlide, slides.length])
+    };
+  }, [isAutoPlaying, nextSlide, slides.length]);
 
-  // Don't render anything until client-side hydration is complete
-  if (!mounted) return null
+  if (!mounted) return null;
 
-  // Don't render anything while loading or if no slides
   if (loading || slides.length === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -122,16 +85,29 @@ export function HeroSlider() {
       <AnimatePresence initial={false} mode="wait">
         <motion.div
           key={currentSlide}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.7 }}
+          initial={{
+            opacity: 0,
+            scale: slideDirection === 1 ? 1.1 : 0.9,
+            x: slideDirection === 1 ? 120 : -120,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            x: 0,
+          }}
+          exit={{
+            opacity: 0,
+            scale: slideDirection === 1 ? 0.9 : 1.1,
+            x: slideDirection === 1 ? -120 : 120,
+          }}
+          transition={{
+            duration: 1.2,
+            ease: [0.4, 0.0, 0.2, 1],
+          }}
           className="absolute inset-0"
         >
-          {/* Improved gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-darker/80 via-blue-darker/85 to-blue-darker/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-darker/25 via-blue-darker/30 to-blue-darker/20" />
 
-          {/* Background image with better object position */}
           <img
             src={slides[currentSlide].image || "/placeholder.svg"}
             alt={slides[currentSlide].title}
@@ -190,10 +166,15 @@ export function HeroSlider() {
                 {slides.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentSlide(index)}
+                    onClick={() => {
+                      setSlideDirection(index > currentSlide ? 1 : -1);
+                      setCurrentSlide(index);
+                    }}
                     className={cn(
                       "h-2 rounded-full transition-all duration-300",
-                      currentSlide === index ? "w-12 bg-gold" : "w-2 bg-white/50 hover:bg-white/80",
+                      currentSlide === index
+                        ? "w-12 bg-gold"
+                        : "w-2 bg-white/50 hover:bg-white/80"
                     )}
                   />
                 ))}
@@ -217,6 +198,5 @@ export function HeroSlider() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

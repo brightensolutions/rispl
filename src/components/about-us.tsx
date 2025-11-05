@@ -45,6 +45,27 @@ export function AboutUs() {
                 evolved in itself in various Process, Technical and
                 Non-Technical Services.
               </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-6 text-gray-700 font-roboto text-lg leading-relaxed"
+              >
+                This is an ISO 9001:2015 Company and designed to bridge the gap
+                between speciality sectors.
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-6 text-gray-700 font-roboto text-lg leading-relaxed"
+              >
+                The headquarter is based at Surat, Gujarat, India and has its
+                operations running at Silvassa, Patalganga, Hazira & Jolva
+                Surat.
+              </motion.p>
 
               {/* Feature Cards */}
               <div className="grid gap-6 mt-10">

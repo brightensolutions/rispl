@@ -38,14 +38,12 @@ export function AboutUs() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-6 text-gray-700 font-roboto text-lg leading-relaxed"
               >
-                We at RISPL are a group of technocrats with a wealth of
-                experience and expertise in offering Customized Packaging
-                solutions including Developing, Designing and Supplying
-                products, and after sale services. We are also engaged in
-                design, supply of high quality turnkey automation projects, with
-                Modular Flexible Conveyors Solutions, Process equipments for
-                various industry segments like Food, Pharmaceuticals, FMCG,
-                Beverages, Automobile and Engineering industries.
+                RISPL is a dynamic organization providing a wide array of
+                innovative and unique solutions in a number of fields. This
+                organization was established in 1991 by Mr. Aadil Patel and is
+                now in operations for around 3 decades; the organization has
+                evolved in itself in various Process, Technical and
+                Non-Technical Services.
               </motion.p>
 
               {/* Feature Cards */}

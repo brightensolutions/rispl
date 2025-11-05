@@ -49,6 +49,7 @@ export function Navbar() {
   const { scrollY } = useScroll();
   const [menuItems, setMenuItems] = React.useState<MenuItem[]>(baseMenuItems);
   const [loading, setLoading] = React.useState(true);
+  const languageDropdownRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -83,8 +84,6 @@ export function Navbar() {
           consumablesCategories = await consumablesResponse.json();
         }
 
-        // reorganized Solutions & Services into Operational Management and Packaging & Automation
-
         // Create the Solutions & Services menu item with two main categories
         const solutionsMenuItem: MenuItem = {
           title: "Solutions & Services",
@@ -105,9 +104,9 @@ export function Navbar() {
                   description: "Atash Enterprise solution",
                 },
                 {
-                  title: "Egale Instrumentation",
+                  title: "Eagle Instrumentation",
                   href: "/solutions/operational-management/egale",
-                  description: "Egale Instrumentation solution",
+                  description: "Eagle Instrumentation solution",
                 },
               ],
             },
@@ -178,7 +177,26 @@ export function Navbar() {
   const handleLanguageChange = (code: string) => {
     setCurrentLanguage(code);
     setLanguageDropdownOpen(false);
+    console.log(`Language changed to: ${code}`);
   };
+
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target as Node)
+      ) {
+        setLanguageDropdownOpen(false);
+      }
+    };
+
+    if (languageDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [languageDropdownOpen]);
 
   return (
     <motion.header
@@ -304,11 +322,9 @@ export function Navbar() {
               Contact
             </Link>
 
-            <div className="relative ml-4">
+            <div className="relative ml-4" ref={languageDropdownRef}>
               <button
                 onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
-                onMouseEnter={() => setLanguageDropdownOpen(true)}
-                onMouseLeave={() => setLanguageDropdownOpen(false)}
                 className="flex items-center gap-2 px-4 py-2 text-[18px] font-medium font-poppins text-blue-dark hover:text-gold transition-colors"
               >
                 <Globe className="h-5 w-5" />

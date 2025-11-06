@@ -28,15 +28,26 @@ interface MenuItem {
   items?: SubMenuItem[];
 }
 
-// Define the base menu items
 const baseMenuItems: MenuItem[] = [{ title: "Home", href: "/" }];
 
-const languages = [
-  { code: "en", name: "English" },
-  { code: "es", name: "Español" },
-  { code: "fr", name: "Français" },
-  { code: "de", name: "Deutsch" },
-];
+const serializeData = (obj: any): any => {
+  if (!obj) return obj;
+  if (Array.isArray(obj)) {
+    return obj.map((item) => serializeData(item));
+  }
+  if (typeof obj === "object") {
+    const serialized: any = {};
+    for (const key in obj) {
+      if (key === "_id" && obj[key]?.buffer) {
+        // Skip MongoDB ObjectId with buffer
+        continue;
+      }
+      serialized[key] = serializeData(obj[key]);
+    }
+    return serialized;
+  }
+  return obj;
+};
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState(false);
@@ -44,47 +55,41 @@ export function Navbar() {
     null
   );
   const [isOpen, setIsOpen] = React.useState(false);
-  const [currentLanguage, setCurrentLanguage] = React.useState("en");
-  const [languageDropdownOpen, setLanguageDropdownOpen] = React.useState(false);
   const { scrollY } = useScroll();
   const [menuItems, setMenuItems] = React.useState<MenuItem[]>(baseMenuItems);
   const [loading, setLoading] = React.useState(true);
-  const languageDropdownRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch industries
         const industriesResponse = await fetch("/api/industries");
         let industries = [];
         if (industriesResponse.ok) {
-          industries = await industriesResponse.json();
+          industries = serializeData(await industriesResponse.json());
         }
 
-        // Fetch services
         const servicesResponse = await fetch("/api/services");
         let services = [];
         if (servicesResponse.ok) {
-          services = await servicesResponse.json();
+          services = serializeData(await servicesResponse.json());
         }
 
-        // Fetch equipment categories
         const equipmentResponse = await fetch("/api/products?type=equipment");
         let equipmentCategories = [];
         if (equipmentResponse.ok) {
-          equipmentCategories = await equipmentResponse.json();
+          equipmentCategories = serializeData(await equipmentResponse.json());
         }
 
-        // Fetch consumables categories
         const consumablesResponse = await fetch(
           "/api/products?type=consumables"
         );
         let consumablesCategories = [];
         if (consumablesResponse.ok) {
-          consumablesCategories = await consumablesResponse.json();
+          consumablesCategories = serializeData(
+            await consumablesResponse.json()
+          );
         }
 
-        // Create the Solutions & Services menu item with two main categories
         const solutionsMenuItem: MenuItem = {
           title: "Solutions & Services",
           items: [
@@ -95,17 +100,17 @@ export function Navbar() {
               subItems: [
                 {
                   title: "Yohan Enterprise",
-                  href: "/solutions/operational-management/yohan",
+                  href: "/solutions/operational-management/yohan-enterprise",
                   description: "Yohan Enterprise solution",
                 },
                 {
                   title: "Atash Enterprise",
-                  href: "/solutions/operational-management/atash",
+                  href: "/solutions/operational-management/atash-enterprise",
                   description: "Atash Enterprise solution",
                 },
                 {
                   title: "Eagle Instrumentation",
-                  href: "/solutions/operational-management/egale",
+                  href: "/solutions/operational-management/eagle-instrumentation",
                   description: "Eagle Instrumentation solution",
                 },
               ],
@@ -114,25 +119,11 @@ export function Navbar() {
               title: "Packaging & Automation",
               href: "#",
               description: "Packaging and automation services",
-              subItems: [
-                // Add current services as sub-items
-                ...services.map((service: any) => ({
-                  title: service.title,
-                  href: `/solutions/${service.slug}`,
-                  description: service.description,
-                })),
-                // Add Industries as a sub-item
-                ...industries.map((industry: any) => ({
-                  title: industry.title,
-                  href: `/industries/${industry.slug}`,
-                  description: industry.shortDescription,
-                })),
-              ],
+              subItems: [],
             },
           ],
         };
 
-        // Create the products menu item
         const productsMenuItem: MenuItem = {
           title: "Products",
           items: [
@@ -149,10 +140,15 @@ export function Navbar() {
           ],
         };
 
-        // Insert the menu items
+        const newsroomMenuItem: MenuItem = {
+          title: "Newsroom",
+          href: "/newsroom",
+        };
+
         const updatedMenuItems = [...baseMenuItems];
         updatedMenuItems.push(solutionsMenuItem);
         updatedMenuItems.push(productsMenuItem);
+        updatedMenuItems.push(newsroomMenuItem);
 
         setMenuItems(updatedMenuItems);
       } catch (error) {
@@ -174,29 +170,39 @@ export function Navbar() {
     setActiveDropdown(null);
   };
 
-  const handleLanguageChange = (code: string) => {
-    setCurrentLanguage(code);
-    setLanguageDropdownOpen(false);
-    console.log(`Language changed to: ${code}`);
-  };
-
-  React.useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        languageDropdownRef.current &&
-        !languageDropdownRef.current.contains(event.target as Node)
-      ) {
-        setLanguageDropdownOpen(false);
+  const handleGoogleTranslate = () => {
+    if (typeof window !== "undefined") {
+      // Create container if it doesn't exist
+      let container = document.getElementById("google_translate_element");
+      if (!container) {
+        container = document.createElement("div");
+        container.id = "google_translate_element";
+        container.style.position = "fixed";
+        container.style.top = "80px";
+        container.style.right = "20px";
+        container.style.zIndex = "9999";
+        document.body.appendChild(container);
       }
-    };
 
-    if (languageDropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
+      // Load Google Translate script if not already loaded
+      if (!(window as any).google?.translate?.TranslateElement) {
+        const script = document.createElement("script");
+        script.src =
+          "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+        script.async = true;
+        document.head.appendChild(script);
+        (window as any).googleTranslateElementInit = () => {
+          new (window as any).google.translate.TranslateElement(
+            {
+              pageLanguage: "en",
+              includedLanguages: "en,es,fr,de,zh-CN,pt,ar",
+            },
+            "google_translate_element"
+          );
+        };
+      }
     }
-  }, [languageDropdownOpen]);
+  };
 
   return (
     <motion.header
@@ -209,9 +215,8 @@ export function Navbar() {
       )}
     >
       <div className="2xl:max-w-[1440px] mx-auto px-4 md:py-4">
-        <div className="flex items-center justify-between ">
-          {/* Logo */}
-          <Link href="/" className="relative ">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="relative">
             <Image
               src="/images/logos/ris logoline.svg"
               alt="Logo"
@@ -221,7 +226,6 @@ export function Navbar() {
             />
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1">
             {menuItems.map((item) => (
               <div
@@ -244,17 +248,12 @@ export function Navbar() {
                     {activeDropdown === item.title && (
                       <div className="absolute top-full left-0 pt-4 w-[320px]">
                         <div className="relative bg-white rounded-lg shadow-lg">
-                          {/* Triangle pointer */}
                           <div className="absolute -top-2 left-6 w-4 h-4 bg-gold rotate-45" />
-
-                          {/* Dropdown header */}
                           <div className="px-4 py-3 bg-gold rounded-t-lg">
                             <h3 className="text-white text-[18px] font-medium font-poppins">
                               {item.title}
                             </h3>
                           </div>
-
-                          {/* Dropdown items */}
                           <div className="p-2 max-h-[70vh] overflow-y-auto">
                             {item.items.map((subItem) => (
                               <div key={subItem.title}>
@@ -273,7 +272,6 @@ export function Navbar() {
                                   </span>
                                 </Link>
 
-                                {/* Sub-items for categories with children */}
                                 {subItem.subItems && (
                                   <div className="ml-4 mt-2 border-l-2 border-blue-100 pl-2">
                                     {subItem.subItems.map((subSubItem) => (
@@ -314,7 +312,6 @@ export function Navbar() {
               </div>
             ))}
 
-            {/* Contact Button */}
             <Link
               href="/contact"
               className="ml-4 px-6 py-2 bg-gold text-white font-poppins text-[18px] rounded hover:bg-gold/90 transition-colors"
@@ -322,43 +319,15 @@ export function Navbar() {
               Contact
             </Link>
 
-            <div className="relative ml-4" ref={languageDropdownRef}>
-              <button
-                onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
-                className="flex items-center gap-2 px-4 py-2 text-[18px] font-medium font-poppins text-blue-dark hover:text-gold transition-colors"
-              >
-                <Globe className="h-5 w-5" />
-                {currentLanguage.toUpperCase()}
-                <ChevronDown
-                  className={cn(
-                    "h-4 w-4 transition-transform duration-200",
-                    languageDropdownOpen && "rotate-180"
-                  )}
-                />
-              </button>
-
-              {languageDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-lg z-50">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => handleLanguageChange(lang.code)}
-                      className={cn(
-                        "w-full text-left px-4 py-2 font-poppins text-[16px] transition-colors",
-                        currentLanguage === lang.code
-                          ? "bg-gold text-white"
-                          : "text-blue-dark hover:bg-blue-50"
-                      )}
-                    >
-                      {lang.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <button
+              onClick={handleGoogleTranslate}
+              className="ml-3 p-2 text-blue-dark hover:text-gold transition-colors rounded hover:bg-gray-100"
+              title="Translate with Google"
+            >
+              <Globe className="h-6 w-6" />
+            </button>
           </nav>
 
-          {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
               <Button variant="ghost" size="icon" className="h-12 w-12">
@@ -415,7 +384,6 @@ export function Navbar() {
                                   </span>
                                 </Link>
 
-                                {/* Sub-items for mobile */}
                                 {subItem.subItems && (
                                   <div className="ml-4 mt-2 border-l-2 border-gray-200 pl-2">
                                     {subItem.subItems.map((subSubItem) => (
@@ -446,28 +414,6 @@ export function Navbar() {
                     )}
                   </div>
                 ))}
-
-                <div className="border-t border-gray-200 mt-4 pt-4">
-                  <div className="px-4 py-2 text-[16px] font-medium font-poppins text-blue-dark">
-                    Language
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => handleLanguageChange(lang.code)}
-                        className={cn(
-                          "w-full text-left px-4 py-2 font-poppins text-[16px] rounded transition-colors",
-                          currentLanguage === lang.code
-                            ? "bg-gold text-white"
-                            : "text-blue-dark hover:bg-blue-50"
-                        )}
-                      >
-                        {lang.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
               </div>
 
               <div className="p-4 mt-auto border-t">
@@ -478,6 +424,14 @@ export function Navbar() {
                 >
                   Contact
                 </Link>
+
+                <button
+                  onClick={handleGoogleTranslate}
+                  className="w-full mt-3 flex items-center justify-center gap-2 px-6 py-2 text-blue-dark font-medium font-poppins text-[18px] border border-blue-dark rounded hover:bg-blue-50 transition-colors"
+                >
+                  <Globe className="h-5 w-5" />
+                  Translate
+                </button>
               </div>
             </SheetContent>
           </Sheet>

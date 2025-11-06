@@ -119,7 +119,18 @@ export function Navbar() {
               title: "Packaging & Automation",
               href: "#",
               description: "Packaging and automation services",
-              subItems: [],
+              subItems: [
+                ...services.map((service: any) => ({
+                  title: service.title,
+                  href: `/solutions/${service.slug}`,
+                  description: service.description,
+                })),
+                ...industries.map((industry: any) => ({
+                  title: industry.title,
+                  href: `/industries/${industry.slug}`,
+                  description: industry.shortDescription,
+                })),
+              ],
             },
           ],
         };

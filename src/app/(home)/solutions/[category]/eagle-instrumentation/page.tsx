@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 
 export default function EaglePage() {
   const service: ServiceData = {
-    title: "Eagle Enterprise",
+    title: "Eagle Instrumentation",
     subtitle: "Specialized Lance Management & Temperature Monitoring Services",
     headerImage: "/images/eagle-cover.jpg",
   };

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Carousel,
   CarouselContent,
@@ -9,13 +9,14 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
-import { Instagram, MessageCircle } from "lucide-react";
+import { Instagram, MessageCircle, X } from "lucide-react";
 import { useCarouselAutoplay } from "@/hooks/use-carousel-autoplay";
 import type { CarouselApi } from "@/components/ui/carousel";
 
 export default function NewsroomPage() {
   const [featureApi, setFeatureApi] = useState<CarouselApi>(undefined);
   const [updatesApi, setUpdatesApi] = useState<CarouselApi>(undefined);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   const handleFeatureApi = useCallback((api: CarouselApi) => {
     setFeatureApi(api);
@@ -27,6 +28,45 @@ export default function NewsroomPage() {
 
   useCarouselAutoplay(featureApi, 4000);
   useCarouselAutoplay(updatesApi, 4000);
+
+  const videos = [
+    {
+      id: 1,
+      title: "Operational Video",
+      thumbnail: "/industrial-operations-overview.jpg",
+      videoUrl: "/images/operations/operation1.mp4",
+    },
+    {
+      id: 2,
+      title: "Operational Video",
+      thumbnail: "/team-excellence-showcase.jpg",
+      videoUrl: "/images/operations/operation2.mp4",
+    },
+    {
+      id: 3,
+      title: "Operational Video",
+      thumbnail: "/safety-first-initiative.jpg",
+      videoUrl: "/images/operations/operation3.mp4",
+    },
+    {
+      id: 4,
+      title: "Operational Video",
+      thumbnail: "/innovation-in-action.jpg",
+      videoUrl: "/images/operations/operation4.mp4",
+    },
+    {
+      id: 5,
+      title: "Operational Video",
+      thumbnail: "/innovation-in-action.jpg",
+      videoUrl: "/images/operations/operation5.mp4",
+    },
+    {
+      id: 6,
+      title: "Operational Video",
+      thumbnail: "/innovation-in-action.jpg",
+      videoUrl: "/images/operations/operation6.mp4",
+    },
+  ];
 
   const carouselSlides = {
     feature: [
@@ -124,11 +164,6 @@ export default function NewsroomPage() {
                           alt={slide.title}
                           className="w-full h-[26rem] object-cover"
                         />
-                        {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
-                          <h4 className="text-lg font-semibold">
-                            {slide.title}
-                          </h4>
-                        </div> */}
                       </div>
                     </CarouselItem>
                   ))}
@@ -185,7 +220,7 @@ export default function NewsroomPage() {
             </Carousel>
           </motion.div>
 
-          {/* Grid 3 - WhatsApp Section (REPLACES Media Coverage Carousel) */}
+          {/* Grid 3 - WhatsApp Section */}
           <motion.div
             whileHover={{ scale: 1.02 }}
             className="flex flex-col items-center justify-center text-white rounded-2xl shadow-lg p-8 bg-gradient-to-br from-[#25D366] to-[#128C7E] border-2 border-transparent relative overflow-hidden"
@@ -226,6 +261,100 @@ export default function NewsroomPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Section: Featured Videos */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="mb-8 text-center"
+        >
+          <h3 className="text-3xl font-bold text-[#005281] mb-2 drop-shadow-md">
+            Featured Videos
+          </h3>
+          <p className="text-gray-600">
+            Watch our latest company highlights and achievements
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {videos.map((video) => (
+            <motion.div
+              key={video.id}
+              whileHover={{ scale: 1.04 }}
+              onClick={() => setActiveVideo(video.videoUrl)}
+              className="group relative rounded-2xl overflow-hidden shadow-[0_8px_25px_rgba(0,0,0,0.2)] border border-[#005281]/30 cursor-pointer transition-all duration-500 hover:shadow-[0_12px_40px_rgba(0,82,129,0.4)]"
+            >
+              {/* Video Preview */}
+              <div className="relative aspect-video overflow-hidden bg-black">
+                <video
+                  src={video.videoUrl}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  muted
+                  loop
+                  autoPlay
+                  playsInline
+                ></video>
+
+                {/* Overlay */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/60 transition-all duration-500">
+                  <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-[#005281]/50">
+                    <svg
+                      className="w-6 h-6 text-[#005281] ml-1"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Title */}
+              <div className="p-4 bg-white">
+                <h4 className="text-lg font-semibold text-gray-800 group-hover:text-[#005281] transition-colors">
+                  {video.title}
+                </h4>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-4xl bg-black rounded-xl overflow-hidden shadow-2xl"
+            >
+              <button
+                onClick={() => setActiveVideo(null)}
+                className="absolute top-3 right-3 z-10 bg-white/20 hover:bg-white/40 text-white p-2 rounded-full transition"
+              >
+                <X size={24} />
+              </button>
+
+              <video
+                src={activeVideo}
+                className="w-full aspect-video"
+                controls
+                autoPlay
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -95,7 +95,7 @@ export function Navbar() {
           items: [
             {
               title: "Operational Management",
-              href: "#",
+              href: "/solutions/operational-management",
               description: "Enterprise management solutions",
               subItems: [
                 {
